@@ -1,3 +1,4 @@
+import '@/i18n'
 import { useTheme } from '@/hooks'
 import { RootNavigator } from '@/navigation'
 import { getNavigationTheme } from '@/navigation/theme'
