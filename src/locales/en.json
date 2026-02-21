@@ -1,8 +1,21 @@
 {
-  "common": {
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit"
+  "home": {
+    "title": "Home",
+    "subtitle": "Your countdowns will appear here"
+  },
+  "countdownDetail": {
+    "title": "Countdown Detail"
+  },
+  "addEdit": {
+    "newTitle": "New Countdown",
+    "editTitle": "Edit Countdown"
+  },
+  "settings": {
+    "title": "Settings"
+  },
+  "tabs": {
+    "home": "Home",
+    "add": "Add",
+    "settings": "Settings"
   }
 }

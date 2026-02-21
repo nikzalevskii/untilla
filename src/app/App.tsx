@@ -1,6 +1,10 @@
 import { useTheme } from '@/hooks'
+import { RootNavigator } from '@/navigation'
+import { getNavigationTheme } from '@/navigation/theme'
 import { ThemeProvider } from '@/theme'
-import { StatusBar, Text } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { useMemo } from 'react'
+import { StatusBar } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 function App() {
@@ -14,12 +18,16 @@ function App() {
 }
 
 function AppContent() {
-  const { isDark } = useTheme()
+  const theme = useTheme()
+  const { isDark } = theme
+  const navigationTheme = useMemo(() => getNavigationTheme(theme), [theme])
 
   return (
     <>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-      <Text>UTILLA239</Text>
+      <NavigationContainer theme={navigationTheme}>
+        <RootNavigator />
+      </NavigationContainer>
     </>
   )
 }
