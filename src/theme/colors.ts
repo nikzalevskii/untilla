@@ -1,23 +1,25 @@
 const palette = {
-  purple50: '#F5F3FF',
-  purple100: '#EDE9FE',
-  purple500: '#8B5CF6',
-  purple600: '#7C3AED',
-  purple900: '#4C1D95',
+  // Фиолет (бренд-акцент)
+  violet50: '#F5F3FF',
+  violet100: '#EDE9FE',
+  violet300: '#C4B5FD',
+  violet400: '#A78BFA',
+  violet500: '#8B5CF6',
+  violet600: '#7C3AED',
+  violet700: '#6D28D9',
+  violet900: '#2E1065',
 
-  gray50: '#FAFAFA',
-  gray100: '#F4F4F5',
-  gray200: '#E4E4E7',
-  gray500: '#71717A',
-  gray800: '#27272A',
-  gray900: '#18181B',
-  gray850: '#1F1F23',
-  gray750: '#2E2E33',
-
-  red400: '#F87171',
-  red500: '#EF4444',
-  green400: '#4ADE80',
-  green500: '#22C55E',
+  // Тёплые нейтральные — коричневатый подтон, не холодный zinc/gray
+  neutral50: '#FAFAF9',
+  neutral100: '#F5F5F4',
+  neutral200: '#E7E5E4',
+  neutral400: '#A8A29E',
+  neutral500: '#78716C',
+  neutral700: '#44403C',
+  neutral800: '#292524',
+  neutral850: '#1C1917',
+  neutral900: '#0F0E0D',
+  neutral950: '#0A0908',
 
   white: '#FFFFFF',
   black: '#000000',
@@ -32,35 +34,44 @@ export type ColorScheme = {
   textTertiary: string
   primary: string
   primaryLight: string
+  primaryHover: string
   border: string
+  borderSubtle: string
   error: string
   success: string
+  warning: string
 }
 
 export const lightColors: ColorScheme = {
-  background: palette.gray50,
+  background: palette.neutral50,
   surface: palette.white,
-  surfaceSecondary: palette.gray100,
-  text: palette.gray900,
-  textSecondary: palette.gray500,
-  textTertiary: palette.gray200,
-  primary: palette.purple600,
-  primaryLight: palette.purple50,
-  border: palette.gray200,
-  error: palette.red500,
-  success: palette.green500,
+  surfaceSecondary: palette.neutral100,
+  text: palette.neutral900,
+  textSecondary: palette.neutral500,
+  textTertiary: palette.neutral400,
+  primary: palette.violet600,
+  primaryLight: palette.violet50,
+  primaryHover: palette.violet700,
+  border: palette.neutral200,
+  borderSubtle: palette.neutral100,
+  error: '#DC2626',
+  success: '#16A34A',
+  warning: '#D97706',
 }
 
 export const darkColors: ColorScheme = {
-  background: palette.gray900,
-  surface: palette.gray800,
-  surfaceSecondary: palette.gray850,
-  text: palette.gray50,
-  textSecondary: palette.gray500,
-  textTertiary: palette.gray800,
-  primary: palette.purple500,
-  primaryLight: palette.purple900,
-  border: palette.gray750,
-  error: palette.red400,
-  success: palette.green400,
+  background: palette.neutral950,
+  surface: palette.neutral900,
+  surfaceSecondary: '#161412',
+  text: palette.neutral50,
+  textSecondary: palette.neutral400,
+  textTertiary: palette.neutral700,
+  primary: palette.violet400,
+  primaryLight: '#2D1B69',
+  primaryHover: palette.violet300,
+  border: '#252321',
+  borderSubtle: '#1A1917',
+  error: '#F87171',
+  success: '#4ADE80',
+  warning: '#FCD34D',
 }

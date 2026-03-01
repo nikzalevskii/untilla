@@ -1,12 +1,64 @@
 export const typography = {
-  largeTitle: { fontSize: 34, lineHeight: 41, fontWeight: '700' as const },
-  title1: { fontSize: 28, lineHeight: 34, fontWeight: '700' as const },
-  title2: { fontSize: 22, lineHeight: 28, fontWeight: '700' as const },
-  title3: { fontSize: 20, lineHeight: 25, fontWeight: '600' as const },
-  headline: { fontSize: 17, lineHeight: 22, fontWeight: '600' as const },
-  body: { fontSize: 17, lineHeight: 22, fontWeight: '400' as const },
-  callout: { fontSize: 16, lineHeight: 21, fontWeight: '400' as const },
-  subhead: { fontSize: 15, lineHeight: 20, fontWeight: '400' as const },
-  footnote: { fontSize: 13, lineHeight: 18, fontWeight: '400' as const },
-  caption1: { fontSize: 12, lineHeight: 16, fontWeight: '400' as const },
+  // Цифры countdown — самый крупный элемент в приложении
+  display: {
+    fontFamily: 'DMSans-ExtraBold',
+    fontSize: 56,
+    lineHeight: 64,
+    letterSpacing: -2,
+    fontWeight: '800' as const,
+  },
+
+  // Заголовки экранов
+  title1: {
+    fontFamily: 'DMSans-Bold',
+    fontSize: 28,
+    lineHeight: 34,
+    letterSpacing: -0.5,
+    fontWeight: '700' as const,
+  },
+
+  // Заголовки секций, модалок
+  title2: {
+    fontFamily: 'DMSans-Bold',
+    fontSize: 22,
+    lineHeight: 28,
+    letterSpacing: -0.3,
+    fontWeight: '700' as const,
+  },
+
+  // Название события на карточке countdown
+  cardTitle: {
+    fontFamily: 'DMSans-SemiBold',
+    fontSize: 17,
+    lineHeight: 22,
+    letterSpacing: 0,
+    fontWeight: '600' as const,
+  },
+
+  // Основной текст
+  body: {
+    fontFamily: 'DMSans-Regular',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: 0,
+    fontWeight: '400' as const,
+  },
+
+  // Метки, подписи табов, второстепенная инфо
+  label: {
+    fontFamily: 'DMSans-Medium',
+    fontSize: 13,
+    lineHeight: 18,
+    letterSpacing: 0.2,
+    fontWeight: '500' as const,
+  },
+
+  // Самый мелкий текст — даты, метки времени
+  caption: {
+    fontFamily: 'DMSans-Regular',
+    fontSize: 12,
+    lineHeight: 16,
+    letterSpacing: 0.1,
+    fontWeight: '400' as const,
+  },
 } as const

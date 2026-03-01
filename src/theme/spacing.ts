@@ -8,4 +8,5 @@ export const spacing = {
   '3xl': 32,
   '4xl': 40,
   '5xl': 48,
+  '6xl': 64,
 } as const

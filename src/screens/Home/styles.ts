@@ -9,7 +9,7 @@ export const useStyles = createStyles(theme => ({
     padding: theme.spacing.lg,
   },
   title: {
-    ...theme.typography.largeTitle,
+    ...theme.typography.title1,
     color: theme.colors.text,
     marginBottom: theme.spacing.sm,
   },

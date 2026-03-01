@@ -1,12 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { AddEditParamList, RootTabParamList, SettingsParamList } from './types'
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { AddEditScreen, SettingsScreen } from '@/screens'
-import { Text } from 'react-native'
-import { useTheme } from '@/hooks'
 import { useTranslation } from 'react-i18next'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
+import { AddEditScreen, SettingsScreen } from '@/screens'
+import { FloatingTabBar } from '@/components/FloatingTabBar'
 import { HomeStack } from './HomeStack'
+import { AddEditParamList, RootTabParamList, SettingsParamList } from './types'
 
 const Tab = createBottomTabNavigator<RootTabParamList>()
 const AddEditStack = createNativeStackNavigator<AddEditParamList>()
@@ -30,72 +30,25 @@ function SettingsNavigator() {
   )
 }
 
-type TabIconProps = {
-  color: string
-  size: number
-}
-
-const renderHomeIcon = ({ color, size }: TabIconProps) => (
-  <Text style={{ fontSize: size, color }}>🏠</Text>
-)
-
-const renderAddIcon = ({ color, size }: TabIconProps) => (
-  <Text style={{ fontSize: size, color }}>➕</Text>
-)
-
-const renderSettingsIcon = ({ color, size }: TabIconProps) => (
-  <Text style={{ fontSize: size, color }}>⚙️</Text>
-)
-
 export function RootNavigator() {
-  const { colors, spacing } = useTheme()
   const { t } = useTranslation()
 
-  const screenOptions = useMemo(
-    () => ({
-      headerShown: false,
-      tabBarActiveTintColor: colors.primary,
-      tabBarInactiveTintColor: colors.textSecondary,
-      tabBarStyle: {
-        backgroundColor: colors.surface,
-        borderTopColor: colors.border,
-        paddingBottom: spacing.xs,
-        paddingTop: spacing.xs,
-      },
-      tabBarLabelStyle: {
-        fontSize: 11,
-        fontWeight: '600' as const,
-      },
-    }),
-    [colors, spacing],
+  const renderTabBar = useCallback(
+    (props: BottomTabBarProps) => <FloatingTabBar {...props} />,
+    [],
   )
 
-  const homeTabOptions = useMemo(
-    () => ({
-      tabBarLabel: t('tabs.home'),
-      tabBarIcon: renderHomeIcon,
-    }),
-    [t],
-  )
+  const screenOptions = useMemo(() => ({ headerShown: false }), [])
 
-  const addTabOptions = useMemo(
-    () => ({
-      tabBarLabel: t('tabs.add'),
-      tabBarIcon: renderAddIcon,
-    }),
-    [t],
-  )
-
+  const homeTabOptions = useMemo(() => ({ tabBarLabel: t('tabs.home') }), [t])
+  const addTabOptions = useMemo(() => ({ tabBarLabel: t('tabs.add') }), [t])
   const settingsTabOptions = useMemo(
-    () => ({
-      tabBarLabel: t('tabs.settings'),
-      tabBarIcon: renderSettingsIcon,
-    }),
+    () => ({ tabBarLabel: t('tabs.settings') }),
     [t],
   )
 
   return (
-    <Tab.Navigator screenOptions={screenOptions}>
+    <Tab.Navigator screenOptions={screenOptions} tabBar={renderTabBar}>
       <Tab.Screen
         name="HomeTab"
         component={HomeStack}
