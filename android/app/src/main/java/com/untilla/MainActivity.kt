@@ -1,9 +1,12 @@
 package com.untilla
 
+import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
+import com.swmansion.rnscreens.fragment.restoration.RNScreensFragmentFactory
+import com.zoontek.rnbootsplash.RNBootSplash
 
 class MainActivity : ReactActivity() {
 
@@ -19,4 +22,13 @@ class MainActivity : ReactActivity() {
    */
   override fun createReactActivityDelegate(): ReactActivityDelegate =
       DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    // react-native-screens >= 4.16.0: регистрируем фабрику ДО super.onCreate,
+    // иначе Android не сможет восстановить Fragments при возврате из background
+    supportFragmentManager.fragmentFactory = RNScreensFragmentFactory()
+    // Удерживаем нативный splash до вызова BootSplash.hide() из JS
+    RNBootSplash.init(this, R.style.BootTheme)
+    super.onCreate(savedInstanceState)
+  }
 }

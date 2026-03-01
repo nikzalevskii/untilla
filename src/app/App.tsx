@@ -4,9 +4,10 @@ import { RootNavigator } from '@/navigation'
 import { getNavigationTheme } from '@/navigation/theme'
 import { ThemeProvider } from '@/theme'
 import { NavigationContainer } from '@react-navigation/native'
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { SplashScreen } from '@/screens'
 
 function App() {
   return (
@@ -22,6 +23,20 @@ function AppContent() {
   const theme = useTheme()
   const { isDark } = theme
   const navigationTheme = useMemo(() => getNavigationTheme(theme), [theme])
+  const [splashDone, setSplashDone] = useState(false)
+
+  const handleSplashFinish = useCallback(() => {
+    setSplashDone(true)
+  }, [])
+
+  if (!splashDone) {
+    return (
+      <>
+        <StatusBar barStyle="light-content" />
+        <SplashScreen onFinish={handleSplashFinish} />
+      </>
+    )
+  }
 
   return (
     <>
