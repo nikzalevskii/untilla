@@ -4,10 +4,11 @@ import { RootNavigator } from '@/navigation'
 import { getNavigationTheme } from '@/navigation/theme'
 import { ThemeProvider } from '@/theme'
 import { NavigationContainer } from '@react-navigation/native'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { SplashScreen } from '@/screens'
+import { useCountdownStore, useSettingsStore } from '@/store'
 
 function App() {
   return (
@@ -24,10 +25,17 @@ function AppContent() {
   const { isDark } = theme
   const navigationTheme = useMemo(() => getNavigationTheme(theme), [theme])
   const [splashDone, setSplashDone] = useState(false)
+  const initializeCountdowns = useCountdownStore(s => s.initialize)
+  const initializeSettings = useSettingsStore(s => s.initialize)
 
   const handleSplashFinish = useCallback(() => {
     setSplashDone(true)
   }, [])
+
+  useEffect(() => {
+    initializeCountdowns()
+    initializeSettings()
+  }, [initializeCountdowns, initializeSettings])
 
   if (!splashDone) {
     return (
