@@ -2003,6 +2003,11 @@
   dependencies:
     nanoid "^3.3.11"
 
+"@shopify/flash-list@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@shopify/flash-list/-/flash-list-2.3.0.tgz#ded45604a38bc0edd49f27e356e1c761bef4018f"
+  integrity sha512-DR7VuN8KJHTYj9zv1/IhpqrMBMQyeeW/DCWCbVQAAkWhHrc6ylIbXOY+qK93CuHABV+dNHXK/3V6p4wCSW/+wA==
+
 "@sideway/address@^4.1.5":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.5.tgz#4bc149a0076623ced99ca8208ba780d65a99b9d5"
@@ -6037,6 +6042,11 @@ react-native-mmkv@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/react-native-mmkv/-/react-native-mmkv-4.1.2.tgz#fb337930ec50d509392832c649b578a00c0d008e"
   integrity sha512-6LHb2DQBXuo96Aues13EugmlWw/HAYuh3KoJoQNrC4JsBwn3J3KiRYAg2mCm5Je0VYq2YsmbgZG7XJwX/WFYZA==
+
+react-native-nitro-modules@0.33.2:
+  version "0.33.2"
+  resolved "https://registry.yarnpkg.com/react-native-nitro-modules/-/react-native-nitro-modules-0.33.2.tgz#7b1fb3c945779a238e7130448ba415f523a61e9b"
+  integrity sha512-ZlfOe6abODeHv/eZf8PxeSkrxIUhEKha6jaAAA9oXy7I6VPr7Ff4dUsAq3cyF3kX0L6qt2Dh9nzD2NdSsDwGpA==
 
 react-native-reanimated@^4.2.2:
   version "4.2.2"
