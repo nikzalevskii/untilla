@@ -4,17 +4,28 @@ export const useStyles = createStyles(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
-    justifyContent: 'center',
-    alignItems: 'center',
+  },
+  listContent: {
+    paddingHorizontal: theme.spacing.lg,
+    paddingBottom: 120,
+  },
+
+  tempCard: {
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    minHeight: 120,
+    marginBottom: 12,
   },
-  title: {
-    ...theme.typography.title1,
+  tempCardEmoji: {
+    fontSize: 32,
+    marginRight: theme.spacing.md,
+  },
+  tempCardTitle: {
+    ...theme.typography.title2,
     color: theme.colors.text,
-    marginBottom: theme.spacing.sm,
-  },
-  subtitle: {
-    ...theme.typography.body,
-    color: theme.colors.textSecondary,
+    flex: 1,
   },
 }))

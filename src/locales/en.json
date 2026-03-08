@@ -1,7 +1,10 @@
 {
   "home": {
     "title": "Home",
-    "subtitle": "Your countdowns will appear here"
+    "subtitle": "Your countdowns will appear here",
+    "emptyTitle": "No countdowns yet",
+    "emptySubtitle": "Create your first countdown and start tracking the moments that matter",
+    "emptyButton": "Create Countdown"
   },
   "countdownDetail": {
     "title": "Countdown Detail"
