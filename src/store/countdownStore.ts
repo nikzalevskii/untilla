@@ -1,5 +1,6 @@
 import { loadCountdowns, saveCountdowns } from '@/services/countdownStorage'
 import { Countdown, CreateCountdownInput, UpdateCountdownInput } from '@/types'
+import { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { create } from 'zustand'
 
@@ -30,7 +31,7 @@ export const useCountdownStore = create<CountdownStore>()((set, get) => ({
     const { countdowns } = get()
 
     const maxSortOrder = countdowns.reduce(
-      (max, c) => Math.max(max, c.sortOrder),
+      (max, countdown) => Math.max(max, countdown.sortOrder),
       -1,
     )
 
@@ -52,10 +53,10 @@ export const useCountdownStore = create<CountdownStore>()((set, get) => ({
   updateCountdown: (id, updates) => {
     const { countdowns } = get()
 
-    const updated = countdowns.map(c =>
-      c.id === id
-        ? { ...c, ...updates, updatedAt: new Date().toISOString() }
-        : c,
+    const updated = countdowns.map(countdown =>
+      countdown.id === id
+        ? { ...countdown, ...updates, updatedAt: new Date().toISOString() }
+        : countdown,
     )
 
     saveCountdowns(updated)
@@ -64,21 +65,21 @@ export const useCountdownStore = create<CountdownStore>()((set, get) => ({
 
   deleteCountdown: id => {
     const { countdowns } = get()
-    const updated = countdowns.filter(c => c.id !== id)
+    const updated = countdowns.filter(countdown => countdown.id !== id)
     saveCountdowns(updated)
     set({ countdowns: updated })
   },
 
   toggleArchive: id => {
     const { countdowns } = get()
-    const updated = countdowns.map(c =>
-      c.id === id
+    const updated = countdowns.map(countdown =>
+      countdown.id === id
         ? {
-            ...c,
-            isArchived: !c.isArchived,
+            ...countdown,
+            isArchived: !countdown.isArchived,
             updatedAt: new Date().toISOString(),
           }
-        : c,
+        : countdown,
     )
     saveCountdowns(updated)
     set({ countdowns: updated })
@@ -87,7 +88,7 @@ export const useCountdownStore = create<CountdownStore>()((set, get) => ({
   reorderCountdowns: orderedIds => {
     const { countdowns } = get()
 
-    const lookup = new Map(countdowns.map(c => [c.id, c]))
+    const lookup = new Map(countdowns.map(countdown => [countdown.id, countdown]))
 
     const updated = orderedIds.map((id, index) => {
       const countdown = lookup.get(id)
@@ -106,20 +107,37 @@ export const useCountdownStore = create<CountdownStore>()((set, get) => ({
   },
 }))
 
-export const selectActiveCountdowns = (state: CountdownStore): Countdown[] =>
-  state.countdowns
-    .filter(c => !c.isArchived)
-    .sort((a, b) => a.sortOrder - b.sortOrder)
+export const useCountdowns = () => useCountdownStore(state => state.countdowns)
 
-export const selectArchivedCountdowns = (state: CountdownStore): Countdown[] =>
-  state.countdowns
-    .filter(c => c.isArchived)
-    .sort(
-      (a, b) =>
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-    )
+export const useIsCountdownsLoading = () => useCountdownStore(state => state.isLoading)
 
-export const selectCountdownById =
-  (id: string) =>
-  (state: CountdownStore): Countdown | undefined =>
-    state.countdowns.find(c => c.id === id)
+export const useCountdownById = (id: string) =>
+  useCountdownStore(state => state.countdowns.find(countdown => countdown.id === id))
+
+export const useActiveCountdowns = () => {
+  const countdowns = useCountdowns()
+  return useMemo(
+    () =>
+      countdowns
+        .filter(countdown => !countdown.isArchived)
+        .sort(
+          (a, b) =>
+            new Date(a.targetDate).getTime() - new Date(b.targetDate).getTime(),
+        ),
+    [countdowns],
+  )
+}
+
+export const useArchivedCountdowns = () => {
+  const countdowns = useCountdowns()
+  return useMemo(
+    () =>
+      countdowns
+        .filter(countdown => countdown.isArchived)
+        .sort(
+          (a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+        ),
+    [countdowns],
+  )
+}

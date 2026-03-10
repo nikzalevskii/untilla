@@ -2,9 +2,8 @@ import { Pressable, Text } from 'react-native'
 import { useStyles } from './styles'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { HomeStackParamList } from '@/navigation'
-import { selectActiveCountdowns, useCountdownStore } from '@/store'
-import { useCallback, useMemo } from 'react'
-import { useShallow } from 'zustand/shallow'
+import { useActiveCountdowns, useIsCountdownsLoading } from '@/store'
+import { useCallback } from 'react'
 import { Countdown } from '@/types'
 import { EmptyState } from '@/components/EmptyState'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -16,17 +15,8 @@ type Props = NativeStackScreenProps<HomeStackParamList, 'Home'>
 export const HomeScreen = ({ navigation }: Props) => {
   const styles = useStyles()
 
-  const countdowns = useCountdownStore(useShallow(selectActiveCountdowns))
-  const isLoading = useCountdownStore(s => s.isLoading)
-
-  const sortedCountdowns = useMemo(
-    () =>
-      [...countdowns].sort(
-        (a, b) =>
-          new Date(a.targetDate).getTime() - new Date(b.targetDate).getTime(),
-      ),
-    [countdowns],
-  )
+  const countdowns = useActiveCountdowns()
+  const isLoading = useIsCountdownsLoading()
 
   const handleCardPress = useCallback(
     (id: string) => {
@@ -65,11 +55,11 @@ export const HomeScreen = ({ navigation }: Props) => {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <HomeHeader />
-      {sortedCountdowns.length === 0 ? (
+      {countdowns.length === 0 ? (
         <EmptyState onAdd={handleAdd} />
       ) : (
         <FlashList
-          data={sortedCountdowns}
+          data={countdowns}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           contentContainerStyle={styles.listContent}
