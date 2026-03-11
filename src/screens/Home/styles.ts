@@ -7,6 +7,7 @@ export const useStyles = createStyles(theme => ({
   },
   listContent: {
     paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.sm,
     paddingBottom: 120,
   },
 }))

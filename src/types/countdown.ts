@@ -40,7 +40,6 @@ export type Countdown = {
 
   // --- Appearance ---
   theme: CountdownTheme
-  emoji?: string // e.g. "✈️", "🎂" — shown on the card
 
   // --- Organisation ---
   category?: CountdownCategory
@@ -62,7 +61,6 @@ export type CreateCountdownInput = {
   targetDate: string
   mode: CountdownMode
   theme: CountdownTheme
-  emoji?: string
   category?: CountdownCategory
   note?: string
   notificationsEnabled: boolean

@@ -8,10 +8,6 @@ export const useStyles = createStyles(theme => ({
     paddingHorizontal: theme.spacing.xl,
     paddingTop: 120,
   },
-  emoji: {
-    fontSize: 64,
-    marginBottom: theme.spacing.lg,
-  },
   title: {
     ...theme.typography.title1,
     color: theme.colors.text,
@@ -33,7 +29,7 @@ export const useStyles = createStyles(theme => ({
   },
   buttonPressed: {
     opacity: 0.85,
-    transform: [{ scale: 0.97 }],
+    transform: [{ scale: 0.96 }],
   },
   buttonText: {
     ...theme.typography.label,

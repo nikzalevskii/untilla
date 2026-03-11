@@ -17,7 +17,6 @@ export const EmptyState = ({ onAdd }: Props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.emoji}>⏳</Text>
       <Text style={styles.title}>{t('home.emptyTitle')}</Text>
       <Text style={styles.subtitle}>{t('home.emptySubtitle')}</Text>
       <Pressable

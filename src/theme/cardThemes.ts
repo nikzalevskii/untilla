@@ -6,27 +6,23 @@ type CardThemeColors = {
 }
 
 const lightCardThemes: Record<CountdownTheme, CardThemeColors> = {
-  violet: { gradientStart: '#8B5CF6', gradientEnd: '#6D28D9' },
-  rose: { gradientStart: '#F43F5E', gradientEnd: '#BE123C' },
-  amber: { gradientStart: '#F59E0B', gradientEnd: '#D97706' },
-  emerald: { gradientStart: '#10B981', gradientEnd: '#059669' },
-  sky: { gradientStart: '#0EA5E9', gradientEnd: '#0369A1' },
-  slate: { gradientStart: '#64748B', gradientEnd: '#475569' },
+  violet: { gradientStart: '#9061F9', gradientEnd: '#5B3FD4' },
+  rose: { gradientStart: '#F9437A', gradientEnd: '#C4185A' },
+  amber: { gradientStart: '#FBAD33', gradientEnd: '#E07A12' },
+  emerald: { gradientStart: '#2DD4A0', gradientEnd: '#0E8C72' },
+  sky: { gradientStart: '#38B2F6', gradientEnd: '#1A6FBF' },
+  slate: { gradientStart: '#6B7F99', gradientEnd: '#3D4F66' },
 }
 
 const darkCardThemes: Record<CountdownTheme, CardThemeColors> = {
-  violet: { gradientStart: '#7C3AED', gradientEnd: '#5B21B6' },
-  rose: { gradientStart: '#E11D48', gradientEnd: '#9F1239' },
-  amber: { gradientStart: '#D97706', gradientEnd: '#B45309' },
-  emerald: { gradientStart: '#059669', gradientEnd: '#047857' },
-  sky: { gradientStart: '#0284C7', gradientEnd: '#075985' },
-  slate: { gradientStart: '#475569', gradientEnd: '#334155' },
+  violet: { gradientStart: '#7B47ED', gradientEnd: '#4527A8' },
+  rose: { gradientStart: '#E32D67', gradientEnd: '#A01048' },
+  amber: { gradientStart: '#E89B1A', gradientEnd: '#C06510' },
+  emerald: { gradientStart: '#17B88A', gradientEnd: '#0A7560' },
+  sky: { gradientStart: '#1E9EE6', gradientEnd: '#10578F' },
+  slate: { gradientStart: '#556B82', gradientEnd: '#2E3D50' },
 }
 
-/**
- * @param theme
- * @param isDark
- */
 export function getCardColors(
   theme: CountdownTheme,
   isDark: boolean,

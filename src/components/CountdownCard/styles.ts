@@ -3,13 +3,14 @@ import { createStyles } from '@/theme/createStyles'
 export const useStyles = createStyles(theme => ({
   card: {
     borderRadius: theme.borderRadius.xl,
-    padding: theme.spacing.lg,
-    minHeight: 120,
+    padding: theme.spacing.xl,
+    minHeight: 140,
+    marginBottom: theme.spacing.md,
     ...theme.shadows.md,
   },
   cardPressed: {
-    opacity: 0.9,
-    transform: [{ scale: 0.97 }],
+    opacity: 0.92,
+    transform: [{ scale: 0.96 }],
   },
   content: {
     flex: 1,
@@ -19,37 +20,26 @@ export const useStyles = createStyles(theme => ({
   },
   left: {
     flex: 1,
-    gap: 8,
     paddingRight: theme.spacing.md,
   },
   right: {
     alignItems: 'center',
     minWidth: 70,
   },
-  emoji: {
-    fontSize: 32,
-  },
   title: {
-    ...theme.typography.title2,
+    ...theme.typography.cardTitle,
     color: '#FFFFFF',
   },
   daysNumber: {
-    fontSize: 48,
-    fontFamily: theme.typography.display.fontFamily,
-    fontWeight: '800',
+    ...theme.typography.display,
     color: '#FFFFFF',
-    lineHeight: 52,
   },
   daysLabel: {
-    fontSize: 13,
-    fontFamily: theme.typography.caption.fontFamily,
-    fontWeight: '500',
+    ...theme.typography.label,
     color: 'rgba(255, 255, 255, 0.8)',
   },
   secondaryText: {
-    fontSize: 12,
-    fontFamily: theme.typography.caption.fontFamily,
-    fontWeight: '400',
+    ...theme.typography.caption,
     color: 'rgba(255, 255, 255, 0.6)',
     marginTop: 2,
   },

@@ -42,7 +42,7 @@ function CountdownCardComponent({ countdown, onPress }: CountdownCardProps) {
   }, [timeRemaining, isCountUp, t])
 
   const secondaryText = useMemo(() => {
-    if (timeRemaining.isToday) return '🎉'
+    if (timeRemaining.isToday) return ''
     return `${timeRemaining.hours}h ${timeRemaining.minutes}m`
   }, [timeRemaining])
 
@@ -57,9 +57,6 @@ function CountdownCardComponent({ countdown, onPress }: CountdownCardProps) {
         >
           <View style={styles.content}>
             <View style={styles.left}>
-              {countdown.emoji && (
-                <Text style={styles.emoji}>{countdown.emoji}</Text>
-              )}
               <Text style={styles.title} numberOfLines={2}>
                 {countdown.title}
               </Text>
@@ -67,7 +64,7 @@ function CountdownCardComponent({ countdown, onPress }: CountdownCardProps) {
 
             <View style={styles.right}>
               <Text style={styles.daysNumber}>
-                {timeRemaining.isToday ? '🎉' : primaryNumber}
+                {timeRemaining.isToday ? '0' : primaryNumber}
               </Text>
               <Text style={styles.daysLabel}>{primaryLabel}</Text>
               {!timeRemaining.isToday && (

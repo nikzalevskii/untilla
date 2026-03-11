@@ -1,44 +1,46 @@
 import { Platform } from 'react-native'
 
-const SHADOW_COLOR = '#000000'
+const SHADOW_COLOR_LIGHT = '#1A1035'
+const SHADOW_COLOR_DARK = '#0D0820'
 
 export function shadows(isDark: boolean) {
-  const shadowOpacity = isDark ? 0.4 : 0.1
+  const shadowColor = isDark ? SHADOW_COLOR_DARK : SHADOW_COLOR_LIGHT
+  const opacityBase = isDark ? 0.18 : 0.08
 
   return {
     sm: Platform.select({
       ios: {
-        shadowColor: SHADOW_COLOR,
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity,
-        shadowRadius: 2,
+        shadowColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: opacityBase,
+        shadowRadius: 8,
       },
       android: {
-        elevation: 2,
+        elevation: 3,
       },
       default: {},
     }),
     md: Platform.select({
       ios: {
-        shadowColor: SHADOW_COLOR,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity,
-        shadowRadius: 4,
+        shadowColor,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: opacityBase + 0.04,
+        shadowRadius: 20,
       },
       android: {
-        elevation: 4,
+        elevation: 6,
       },
       default: {},
     }),
     lg: Platform.select({
       ios: {
-        shadowColor: SHADOW_COLOR,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: shadowOpacity + 0.05,
-        shadowRadius: 8,
+        shadowColor,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: opacityBase + 0.08,
+        shadowRadius: 40,
       },
       android: {
-        elevation: 8,
+        elevation: 12,
       },
       default: {},
     }),
