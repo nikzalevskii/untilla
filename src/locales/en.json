@@ -4,7 +4,14 @@
     "subtitle": "Your countdowns will appear here",
     "emptyTitle": "No countdowns yet",
     "emptySubtitle": "Create your first countdown and start tracking the moments that matter",
-    "emptyButton": "Create Countdown"
+    "emptyButton": "Create Countdown",
+    "today": "Today!",
+    "daysLeft_one": "day left",
+    "daysLeft_other": "days left",
+    "daysPast_one": "day ago",
+    "daysPast_other": "days ago",
+    "daysSince_one": "day since",
+    "daysSince_other": "days since"
   },
   "countdownDetail": {
     "title": "Countdown Detail"

@@ -4,7 +4,17 @@
     "subtitle": "Здесь появятся ваши отсчёты",
     "emptyTitle": "Пока нет отсчётов",
     "emptySubtitle": "Создайте первый отсчёт и начните отслеживать важные моменты",
-    "emptyButton": "Создать отсчёт"
+    "emptyButton": "Создать отсчёт",
+    "today": "Сегодня!",
+    "daysLeft_one": "день",
+    "daysLeft_few": "дня",
+    "daysLeft_many": "дней",
+    "daysPast_one": "день назад",
+    "daysPast_few": "дня назад",
+    "daysPast_many": "дней назад",
+    "daysSince_one": "день",
+    "daysSince_few": "дня",
+    "daysSince_many": "дней"
   },
   "countdownDetail": {
     "title": "Детали отсчёта"
