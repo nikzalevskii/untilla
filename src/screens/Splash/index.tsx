@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Text } from 'react-native'
+import { Image } from 'react-native'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -75,9 +75,11 @@ export function SplashScreen({ onFinish }: Props) {
 
   return (
     <Animated.View style={[styles.container, screenStyle]}>
-      {/* TODO: replace with SVG logo component */}
       <Animated.View style={[styles.logoMark, logoStyle]}>
-        <Text style={styles.logoLetter}>U</Text>
+        <Image
+          source={require('@/assets/images/logo.png')}
+          style={styles.logoImage}
+        />
       </Animated.View>
       <Animated.Text style={[styles.title, titleStyle]}>Untilla</Animated.Text>
     </Animated.View>

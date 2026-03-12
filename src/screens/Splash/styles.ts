@@ -7,25 +7,16 @@ export const useStyles = createStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // Placeholder логотипа — фиолетовый круг с монограммой "U"
-  // Заменить на реальный SVG-логотип когда будет готов дизайн иконки
   logoMark: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: theme.colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: theme.spacing.lg,
   },
-  logoLetter: {
-    fontFamily: 'DMSans-Bold',
-    fontSize: 40,
-    lineHeight: 48,
-    color: '#FFFFFF', 
+  logoImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 20,
   },
   title: {
-    ...theme.typography.title1, 
+    ...theme.typography.title1,
     color: theme.colors.text,
     letterSpacing: 2,
   },
