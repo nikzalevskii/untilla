@@ -10,8 +10,6 @@ import { HomeIcon } from '@/components/ui/icons/HomeIcon'
 import { SettingsIcon } from '@/components/ui/icons/SettingsIcon'
 
 const PILL_HEIGHT = 64
-const FAB_SIZE = 56
-const FAB_OVERHANG = FAB_SIZE / 2
 const BOTTOM_MARGIN = 16
 
 export function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
@@ -21,8 +19,10 @@ export function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarP
 
   const bottomInset = Math.max(insets.bottom, 0)
 
+  // WHY без FAB_OVERHANG: в Pencil дизайне FAB находится внутри pill (56px в 64px pill),
+  // а не плавает над ним. Wrapper высота = только pill + отступы.
   const wrapperStyle = useMemo(
-    () => ({ height: bottomInset + BOTTOM_MARGIN + PILL_HEIGHT + FAB_OVERHANG }),
+    () => ({ height: bottomInset + BOTTOM_MARGIN + PILL_HEIGHT }),
     [bottomInset],
   )
 
@@ -71,13 +71,15 @@ export function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarP
   const homeLabel     = descriptors[homeRoute.key].options.tabBarLabel as string ?? 'Home'
   const settingsLabel = descriptors[settingsRoute.key].options.tabBarLabel as string ?? 'Settings'
 
-  const homeIconColor     = isHomeActive     ? colors.primary : colors.textSecondary
-  const settingsIconColor = isSettingsActive ? colors.primary : colors.textSecondary
+  // WHY white для active: Pencil рисует active tab с фиолетовым фоном,
+  // иконка и текст должны быть белыми для контраста.
+  // Inactive использует tabInactive (не textSecondary) — отдельный серый оттенок из Pencil.
+  const homeIconColor     = isHomeActive     ? '#FFFFFF' : colors.tabInactive
+  const settingsIconColor = isSettingsActive ? '#FFFFFF' : colors.tabInactive
 
   return (
     <View style={[styles.wrapper, wrapperStyle]}>
       <View style={[styles.container, containerStyle]}>
-        <FabButton onPress={handleAddPress} />
         <View style={styles.pill}>
           <TabBarItem
             Icon={HomeIcon}
@@ -86,7 +88,9 @@ export function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarP
             iconColor={homeIconColor}
             onPress={handleHomePress}
           />
-          <View style={styles.centerSpace} />
+          {/* WHY FAB внутри pill: Pencil показывает + кнопку между табами внутри pill-бара.
+              56px FAB вписывается в 64px pill с 4px padding = ровно по высоте. */}
+          <FabButton onPress={handleAddPress} />
           <TabBarItem
             Icon={SettingsIcon}
             label={settingsLabel}

@@ -14,6 +14,8 @@ interface Props {
 }
 export function ThemeProvider({ children }: Props) {
   const colorScheme = useColorScheme()
+  // TODO: убрать после проверки тёмной темы
+  // const isDark = true // colorScheme === 'dark'
   const isDark = colorScheme === 'dark'
 
   const theme = useMemo(

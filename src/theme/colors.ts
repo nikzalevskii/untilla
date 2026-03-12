@@ -40,6 +40,7 @@ export type ColorScheme = {
   error: string
   success: string
   warning: string
+  tabInactive: string
 }
 
 export const lightColors: ColorScheme = {
@@ -57,6 +58,7 @@ export const lightColors: ColorScheme = {
   error: '#DC2626',
   success: '#16A34A',
   warning: '#D97706',
+  tabInactive: '#8A8A8A',
 }
 
 export const darkColors: ColorScheme = {
@@ -74,4 +76,5 @@ export const darkColors: ColorScheme = {
   error: '#F87171',
   success: '#4ADE80',
   warning: '#FCD34D',
+  tabInactive: '#57534E',
 }

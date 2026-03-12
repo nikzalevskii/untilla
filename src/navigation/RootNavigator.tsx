@@ -12,11 +12,13 @@ const Tab = createBottomTabNavigator<RootTabParamList>()
 const AddEditStack = createNativeStackNavigator<AddEditParamList>()
 const SettingsStack = createNativeStackNavigator<SettingsParamList>()
 
-const HIDDEN_HEADER = { headerShown: false } as const
+// WHY freezeOnBlur: CLAUDE.md STRICT — замораживает компонент когда экран не на переднем плане.
+// React не обрабатывает state updates, экономит CPU на вложенных навигаторах.
+const STACK_OPTIONS = { headerShown: false, freezeOnBlur: true } as const
 
 function AddEditNavigator() {
   return (
-    <AddEditStack.Navigator screenOptions={HIDDEN_HEADER}>
+    <AddEditStack.Navigator screenOptions={STACK_OPTIONS}>
       <AddEditStack.Screen name="AddEdit" component={AddEditScreen} />
     </AddEditStack.Navigator>
   )
@@ -24,7 +26,7 @@ function AddEditNavigator() {
 
 function SettingsNavigator() {
   return (
-    <SettingsStack.Navigator screenOptions={HIDDEN_HEADER}>
+    <SettingsStack.Navigator screenOptions={STACK_OPTIONS}>
       <SettingsStack.Screen name="Settings" component={SettingsScreen} />
     </SettingsStack.Navigator>
   )
