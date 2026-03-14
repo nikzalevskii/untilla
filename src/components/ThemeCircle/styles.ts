@@ -8,6 +8,7 @@ export const useStyles = createStyles(theme => ({
   },
   circleSelected: {
     borderWidth: 3,
+    borderRadius: 24,
     borderColor: theme.colors.text,
   },
   circlePressed: {

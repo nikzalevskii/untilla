@@ -18,7 +18,29 @@
   },
   "addEdit": {
     "newTitle": "New Countdown",
-    "editTitle": "Edit Countdown"
+    "editTitle": "Edit Countdown",
+    "cancel": "Cancel",
+    "save": "Save",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Birthday, vacation, holiday...",
+    "dateLabel": "Date",
+    "modeLabel": "Mode",
+    "categoryLabel": "Category",
+    "themeLabel": "Theme",
+    "noteLabel": "Note",
+    "notePlaceholder": "Add a note...",
+    "notificationsTitle": "Notifications",
+    "notificationsDescription": "Get reminded before the event",
+    "modeCountdown": "Countdown",
+    "modeCountup": "Count Up",
+    "categoryBirthday": "Birthday",
+    "categoryHoliday": "Holiday",
+    "categoryTravel": "Travel",
+    "categoryAnniversary": "Anniversary",
+    "categoryWork": "Work",
+    "categoryHealth": "Health",
+    "categoryPersonal": "Personal",
+    "categoryOther": "Other"
   },
   "settings": {
     "title": "Settings"

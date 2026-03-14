@@ -21,7 +21,29 @@
   },
   "addEdit": {
     "newTitle": "Новый отсчёт",
-    "editTitle": "Редактировать отсчёт"
+    "editTitle": "Редактировать отсчёт",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "titleLabel": "Название",
+    "titlePlaceholder": "День рождения, отпуск, праздник...",
+    "dateLabel": "Дата",
+    "modeLabel": "Режим",
+    "categoryLabel": "Категория",
+    "themeLabel": "Тема",
+    "noteLabel": "Заметка",
+    "notePlaceholder": "Добавьте заметку...",
+    "notificationsTitle": "Уведомления",
+    "notificationsDescription": "Напоминание перед событием",
+    "modeCountdown": "Обратный отсчёт",
+    "modeCountup": "Прямой отсчёт",
+    "categoryBirthday": "День рождения",
+    "categoryHoliday": "Праздник",
+    "categoryTravel": "Путешествие",
+    "categoryAnniversary": "Годовщина",
+    "categoryWork": "Работа",
+    "categoryHealth": "Здоровье",
+    "categoryPersonal": "Личное",
+    "categoryOther": "Другое"
   },
   "settings": {
     "title": "Настройки"
