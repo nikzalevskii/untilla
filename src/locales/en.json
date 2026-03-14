@@ -4,14 +4,27 @@
     "subtitle": "Your countdowns will appear here",
     "emptyTitle": "No countdowns yet",
     "emptySubtitle": "Create your first countdown and start tracking the moments that matter",
-    "emptyButton": "Create Countdown",
+    "emptyButton": "Create Countdown"
+  },
+  "countdown": {
     "today": "Today!",
+    "todayFull": "The event is today!",
+    "passed": "Event passed",
     "daysLeft_one": "day left",
     "daysLeft_other": "days left",
     "daysPast_one": "day ago",
     "daysPast_other": "days ago",
-    "daysSince_one": "day since",
-    "daysSince_other": "days since"
+    "daysSince_one": "day",
+    "daysSince_other": "days",
+    "nDays_one": "{{count}} day",
+    "nDays_other": "{{count}} days",
+    "nHours_one": "{{count}} hour",
+    "nHours_other": "{{count}} hours",
+    "nMinutes_one": "{{count}} minute",
+    "nMinutes_other": "{{count}} minutes",
+    "fullLeft": "{{time}} left",
+    "fullAgo": "{{time}} ago",
+    "fullSince": "{{time}} since"
   },
   "countdownDetail": {
     "title": "Countdown Detail"

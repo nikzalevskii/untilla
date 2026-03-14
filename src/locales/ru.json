@@ -4,8 +4,12 @@
     "subtitle": "Здесь появятся ваши отсчёты",
     "emptyTitle": "Пока нет отсчётов",
     "emptySubtitle": "Создайте первый отсчёт и начните отслеживать важные моменты",
-    "emptyButton": "Создать отсчёт",
+    "emptyButton": "Создать отсчёт"
+  },
+  "countdown": {
     "today": "Сегодня!",
+    "todayFull": "Событие сегодня!",
+    "passed": "Событие прошло",
     "daysLeft_one": "день",
     "daysLeft_few": "дня",
     "daysLeft_many": "дней",
@@ -14,7 +18,19 @@
     "daysPast_many": "дней назад",
     "daysSince_one": "день",
     "daysSince_few": "дня",
-    "daysSince_many": "дней"
+    "daysSince_many": "дней",
+    "nDays_one": "{{count}} день",
+    "nDays_few": "{{count}} дня",
+    "nDays_many": "{{count}} дней",
+    "nHours_one": "{{count}} час",
+    "nHours_few": "{{count}} часа",
+    "nHours_many": "{{count}} часов",
+    "nMinutes_one": "{{count}} минута",
+    "nMinutes_few": "{{count}} минуты",
+    "nMinutes_many": "{{count}} минут",
+    "fullLeft": "Осталось {{time}}",
+    "fullAgo": "{{time}} назад",
+    "fullSince": "{{time}} прошло"
   },
   "countdownDetail": {
     "title": "Детали отсчёта"

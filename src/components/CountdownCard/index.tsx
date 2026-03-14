@@ -1,9 +1,7 @@
 import { memo, useCallback, useMemo } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { useTranslation } from 'react-i18next'
-import { useTheme } from '@/hooks'
-import { useTimeRemaining } from '@/hooks/useTimeRemaining'
+import { useFormattedCountdown, useTheme } from '@/hooks'
 import { getCardColors } from '@/theme/cardThemes'
 import { useStyles } from './styles'
 import type { CountdownCardProps } from './types'
@@ -11,9 +9,12 @@ import type { CountdownCardProps } from './types'
 function CountdownCardComponent({ countdown, onPress }: CountdownCardProps) {
   const styles = useStyles()
   const { isDark } = useTheme()
-  const { t } = useTranslation()
 
-  const timeRemaining = useTimeRemaining(countdown.targetDate, 'minute')
+  const formatted = useFormattedCountdown(
+    countdown.targetDate,
+    countdown.mode,
+    'minute',
+  )
 
   const cardColors = useMemo(
     () => getCardColors(countdown.theme, isDark),
@@ -23,28 +24,6 @@ function CountdownCardComponent({ countdown, onPress }: CountdownCardProps) {
   const handlePress = useCallback(() => {
     onPress(countdown.id)
   }, [onPress, countdown.id])
-
-  const isCountUp = countdown.mode === 'countup'
-
-  const primaryNumber = timeRemaining.totalDays.toString()
-
-  const primaryLabel = useMemo(() => {
-    if (timeRemaining.isToday && !isCountUp) {
-      return t('home.today')
-    }
-    if (isCountUp) {
-      return t('home.daysSince', { count: timeRemaining.totalDays })
-    }
-    if (timeRemaining.isPast) {
-      return t('home.daysPast', { count: timeRemaining.totalDays })
-    }
-    return t('home.daysLeft', { count: timeRemaining.totalDays })
-  }, [timeRemaining, isCountUp, t])
-
-  const secondaryText = useMemo(() => {
-    if (timeRemaining.isToday) return ''
-    return `${timeRemaining.hours}h ${timeRemaining.minutes}m`
-  }, [timeRemaining])
 
   return (
     <Pressable onPress={handlePress}>
@@ -63,12 +42,10 @@ function CountdownCardComponent({ countdown, onPress }: CountdownCardProps) {
             </View>
 
             <View style={styles.right}>
-              <Text style={styles.daysNumber}>
-                {timeRemaining.isToday ? '0' : primaryNumber}
-              </Text>
-              <Text style={styles.daysLabel}>{primaryLabel}</Text>
-              {!timeRemaining.isToday && (
-                <Text style={styles.secondaryText}>{secondaryText}</Text>
+              <Text style={styles.daysNumber}>{formatted.primary}</Text>
+              <Text style={styles.daysLabel}>{formatted.primaryLabel}</Text>
+              {formatted.secondary && (
+                <Text style={styles.secondaryText}>{formatted.secondary}</Text>
               )}
             </View>
           </View>
