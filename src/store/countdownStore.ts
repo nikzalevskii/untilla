@@ -15,6 +15,7 @@ type CountdownStore = {
   createCountdown: (input: CreateCountdownInput) => Countdown
   updateCountdown: (id: string, updates: UpdateCountdownInput) => void
   deleteCountdown: (id: string) => void
+  deleteAllCountdowns: () => void
   toggleArchive: (id: string) => void
   reorderCountdowns: (orderedIds: string[]) => void
 }
@@ -70,6 +71,11 @@ export const useCountdownStore = create<CountdownStore>()((set, get) => ({
     set({ countdowns: updated })
   },
 
+  deleteAllCountdowns: () => {
+    saveCountdowns([])
+    set({ countdowns: [] })
+  },
+
   toggleArchive: id => {
     const { countdowns } = get()
     const updated = countdowns.map(countdown =>
@@ -88,7 +94,9 @@ export const useCountdownStore = create<CountdownStore>()((set, get) => ({
   reorderCountdowns: orderedIds => {
     const { countdowns } = get()
 
-    const lookup = new Map(countdowns.map(countdown => [countdown.id, countdown]))
+    const lookup = new Map(
+      countdowns.map(countdown => [countdown.id, countdown]),
+    )
 
     const updated = orderedIds.map((id, index) => {
       const countdown = lookup.get(id)
@@ -109,10 +117,13 @@ export const useCountdownStore = create<CountdownStore>()((set, get) => ({
 
 export const useCountdowns = () => useCountdownStore(state => state.countdowns)
 
-export const useIsCountdownsLoading = () => useCountdownStore(state => state.isLoading)
+export const useIsCountdownsLoading = () =>
+  useCountdownStore(state => state.isLoading)
 
 export const useCountdownById = (id: string) =>
-  useCountdownStore(state => state.countdowns.find(countdown => countdown.id === id))
+  useCountdownStore(state =>
+    state.countdowns.find(countdown => countdown.id === id),
+  )
 
 export const useActiveCountdowns = () => {
   const countdowns = useCountdowns()

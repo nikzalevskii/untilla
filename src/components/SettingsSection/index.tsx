@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { Text, View } from 'react-native'
 import { useStyles } from './styles'
 
@@ -7,7 +7,7 @@ type Props = {
   children: React.ReactNode
 }
 
-function SettingsSectionComponent({ label, children }: Props) {
+export function SettingsSection({ label, children }: Props) {
   const styles = useStyles()
 
   return (
@@ -17,5 +17,3 @@ function SettingsSectionComponent({ label, children }: Props) {
     </View>
   )
 }
-
-export const SettingsSection = memo(SettingsSectionComponent)

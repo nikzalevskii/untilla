@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { useStyles } from './styles'
 
@@ -11,7 +11,7 @@ type Props = {
   onPress?: () => void
 }
 
-function SettingsRowComponent({
+export function SettingsRow({
   label,
   value,
   rightElement,
@@ -47,5 +47,3 @@ function SettingsRowComponent({
 
   return <>{content}</>
 }
-
-export const SettingsRow = memo(SettingsRowComponent)

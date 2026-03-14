@@ -1,4 +1,3 @@
-import { useCallback, useMemo } from 'react'
 import { Alert, Linking, ScrollView, Switch, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
@@ -13,7 +12,19 @@ import { useStyles } from './styles'
 const THEME_CYCLE = ['system', 'light', 'dark'] as const
 const LANGUAGE_CYCLE = ['system', 'en', 'ru'] as const
 
-export const SettingsScreen = () => {
+const THEME_LABELS: Record<string, string> = {
+  system: 'settings.themeSystem',
+  light: 'settings.themeLight',
+  dark: 'settings.themeDark',
+}
+
+const LANGUAGE_LABELS: Record<string, string> = {
+  system: 'settings.languageSystem',
+  en: 'settings.languageEnglish',
+  ru: 'settings.languageRussian',
+}
+
+export function SettingsScreen() {
   const styles = useStyles()
   const { colors } = useTheme()
   const { t } = useTranslation()
@@ -21,57 +32,35 @@ export const SettingsScreen = () => {
   const settings = useSettingsStore(state => state.settings)
   const updateSetting = useSettingsStore(state => state.updateSetting)
 
-  const themeDisplayValue = useMemo(() => {
-    const map = {
-      system: t('settings.themeSystem'),
-      light: t('settings.themeLight'),
-      dark: t('settings.themeDark'),
-    }
-    return map[settings.themePreference]
-  }, [settings.themePreference, t])
-
-  const languageDisplayValue = useMemo(() => {
-    const map = {
-      system: t('settings.languageSystem'),
-      en: t('settings.languageEnglish'),
-      ru: t('settings.languageRussian'),
-    }
-    return map[settings.language]
-  }, [settings.language, t])
-
-  const handleThemePress = useCallback(() => {
+  const handleThemePress = () => {
     const currentIndex = THEME_CYCLE.indexOf(settings.themePreference)
     const nextIndex = (currentIndex + 1) % THEME_CYCLE.length
     updateSetting('themePreference', THEME_CYCLE[nextIndex])
-  }, [settings.themePreference, updateSetting])
+  }
 
-  const handleLanguagePress = useCallback(() => {
+  const handleLanguagePress = () => {
     const currentIndex = LANGUAGE_CYCLE.indexOf(settings.language)
     const nextIndex = (currentIndex + 1) % LANGUAGE_CYCLE.length
     updateSetting('language', LANGUAGE_CYCLE[nextIndex])
-  }, [settings.language, updateSetting])
+  }
 
-  const handleHapticsToggle = useCallback(
-    (value: boolean) => updateSetting('hapticsEnabled', value),
-    [updateSetting],
-  )
+  const handleHapticsToggle = (value: boolean) =>
+    updateSetting('hapticsEnabled', value)
 
-  const handleNotificationsToggle = useCallback(
-    (value: boolean) => updateSetting('notificationsEnabled', value),
-    [updateSetting],
-  )
+  const handleNotificationsToggle = (value: boolean) =>
+    updateSetting('notificationsEnabled', value)
 
-  const handleRateApp = useCallback(() => {
+  const handleRateApp = () => {
     // TODO: replace with actual App Store / Play Store URL
     Linking.openURL('https://apps.apple.com')
-  }, [])
+  }
 
-  const handlePrivacyPolicy = useCallback(() => {
+  const handlePrivacyPolicy = () => {
     // TODO: replace with actual privacy policy URL
     Linking.openURL('https://untilla.app/privacy')
-  }, [])
+  }
 
-  const handleDeleteAll = useCallback(() => {
+  const handleDeleteAll = () => {
     Alert.alert(
       t('settings.deleteConfirmTitle'),
       t('settings.deleteConfirmMessage'),
@@ -80,46 +69,11 @@ export const SettingsScreen = () => {
         {
           text: t('settings.deleteConfirmButton'),
           style: 'destructive',
-          onPress: () => {
-            const countdowns = useCountdownStore.getState().countdowns
-            const deleteCountdown = useCountdownStore.getState().deleteCountdown
-            countdowns.forEach(countdown => deleteCountdown(countdown.id))
-          },
+          onPress: () => useCountdownStore.getState().deleteAllCountdowns(),
         },
       ],
     )
-  }, [t])
-
-  // WHY useMemo: chevron and switches don't depend on form state,
-  // memoize to avoid recreating on every render.
-  const chevronIcon = useMemo(
-    () => <ChevronRightIcon color={colors.textTertiary} />,
-    [colors.textTertiary],
-  )
-
-  const hapticSwitch = useMemo(
-    () => (
-      <Switch
-        value={settings.hapticsEnabled}
-        onValueChange={handleHapticsToggle}
-        trackColor={{ true: colors.primary, false: colors.surfaceSecondary }}
-        thumbColor="#FFFFFF"
-      />
-    ),
-    [settings.hapticsEnabled, handleHapticsToggle, colors],
-  )
-
-  const notificationsSwitch = useMemo(
-    () => (
-      <Switch
-        value={settings.notificationsEnabled}
-        onValueChange={handleNotificationsToggle}
-        trackColor={{ true: colors.primary, false: colors.surfaceSecondary }}
-        thumbColor="#FFFFFF"
-      />
-    ),
-    [settings.notificationsEnabled, handleNotificationsToggle, colors],
-  )
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -136,13 +90,13 @@ export const SettingsScreen = () => {
         <SettingsSection label={t('settings.displaySection')}>
           <SettingsRow
             label={t('settings.theme')}
-            value={themeDisplayValue}
+            value={t(THEME_LABELS[settings.themePreference])}
             onPress={handleThemePress}
             showDivider
           />
           <SettingsRow
             label={t('settings.language')}
-            value={languageDisplayValue}
+            value={t(LANGUAGE_LABELS[settings.language])}
             onPress={handleLanguagePress}
           />
         </SettingsSection>
@@ -151,12 +105,32 @@ export const SettingsScreen = () => {
         <SettingsSection label={t('settings.preferencesSection')}>
           <SettingsRow
             label={t('settings.hapticFeedback')}
-            rightElement={hapticSwitch}
+            rightElement={
+              <Switch
+                value={settings.hapticsEnabled}
+                onValueChange={handleHapticsToggle}
+                trackColor={{
+                  true: colors.primary,
+                  false: colors.surfaceSecondary,
+                }}
+                thumbColor="#FFFFFF"
+              />
+            }
             showDivider
           />
           <SettingsRow
             label={t('settings.notifications')}
-            rightElement={notificationsSwitch}
+            rightElement={
+              <Switch
+                value={settings.notificationsEnabled}
+                onValueChange={handleNotificationsToggle}
+                trackColor={{
+                  true: colors.primary,
+                  false: colors.surfaceSecondary,
+                }}
+                thumbColor="#FFFFFF"
+              />
+            }
           />
         </SettingsSection>
 
@@ -169,13 +143,13 @@ export const SettingsScreen = () => {
           />
           <SettingsRow
             label={t('settings.rateApp')}
-            rightElement={chevronIcon}
+            rightElement={<ChevronRightIcon color={colors.textTertiary} />}
             onPress={handleRateApp}
             showDivider
           />
           <SettingsRow
             label={t('settings.privacyPolicy')}
-            rightElement={chevronIcon}
+            rightElement={<ChevronRightIcon color={colors.textTertiary} />}
             onPress={handlePrivacyPolicy}
           />
         </SettingsSection>

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import { useState } from 'react'
 import {
   Platform,
   Pressable,
@@ -33,7 +33,7 @@ import type { CountdownCategory, CountdownMode, CountdownTheme } from '@/types'
 
 type Props = NativeStackScreenProps<AddEditParamList, 'AddEdit'>
 
-export const AddEditScreen = ({ route, navigation }: Props) => {
+export function AddEditScreen({ route, navigation }: Props) {
   const styles = useStyles()
   const { colors, isDark } = useTheme()
   const { t } = useTranslation()
@@ -66,11 +66,9 @@ export const AddEditScreen = ({ route, navigation }: Props) => {
 
   const canSave = title.trim().length > 0
 
-  const handleCancel = useCallback(() => {
-    navigation.goBack()
-  }, [navigation])
+  const handleCancel = () => navigation.goBack()
 
-  const handleSave = useCallback(() => {
+  const handleSave = () => {
     if (!canSave) return
 
     if (isEditing && editId) {
@@ -101,54 +99,30 @@ export const AddEditScreen = ({ route, navigation }: Props) => {
     }
 
     navigation.goBack()
-  }, [
-    canSave,
-    isEditing,
-    editId,
-    title,
-    targetDate,
-    mode,
-    theme,
-    category,
-    note,
-    notificationsEnabled,
-    createCountdown,
-    updateCountdown,
-    navigation,
-  ])
+  }
 
-  const handleDatePress = useCallback(() => {
-    setShowDatePicker(true)
-  }, [])
+  const handleDatePress = () => setShowDatePicker(true)
 
-  const handleDateChange = useCallback(
-    (event: DateTimePickerEvent, selectedDate?: Date) => {
-      // Android closes picker on any action; iOS keeps it open
-      if (Platform.OS === 'android') {
-        setShowDatePicker(false)
-      }
-      if (event.type === 'set' && selectedDate) {
-        setTargetDate(selectedDate.toISOString())
-      }
-    },
-    [],
-  )
+  const handleDateChange = (
+    event: DateTimePickerEvent,
+    selectedDate?: Date,
+  ) => {
+    // Android closes picker on any action; iOS keeps it open
+    if (Platform.OS === 'android') {
+      setShowDatePicker(false)
+    }
+    if (event.type === 'set' && selectedDate) {
+      setTargetDate(selectedDate.toISOString())
+    }
+  }
 
-  const dateValue = useMemo(() => new Date(targetDate), [targetDate])
+  const dateValue = new Date(targetDate)
 
-  const formattedDate = useMemo(() => {
-    return dateValue.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    })
-  }, [dateValue])
-
-  // Stable element — doesn't depend on form state
-  const calendarIconElement = useMemo(
-    () => <CalendarIcon color={colors.textSecondary} />,
-    [colors.textSecondary],
-  )
+  const formattedDate = dateValue.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  })
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -198,7 +172,7 @@ export const AddEditScreen = ({ route, navigation }: Props) => {
             ]}
           >
             <Text style={styles.dateText}>{formattedDate}</Text>
-            {calendarIconElement}
+            <CalendarIcon color={colors.textSecondary} />
           </Pressable>
         </View>
 
