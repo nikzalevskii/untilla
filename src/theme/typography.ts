@@ -8,7 +8,16 @@ export const typography = {
     fontWeight: '800' as const,
   },
 
-  // Заголовки экранов
+  // Screen titles — large bold heading for top-level screens (Settings, Home)
+  screenTitle: {
+    fontFamily: 'DMSans-ExtraBold',
+    fontSize: 48,
+    lineHeight: 56,
+    letterSpacing: -1.5,
+    fontWeight: '800' as const,
+  },
+
+  // Section headings, secondary titles
   title1: {
     fontFamily: 'DMSans-Bold',
     fontSize: 28,

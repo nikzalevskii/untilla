@@ -56,7 +56,29 @@
     "categoryOther": "Other"
   },
   "settings": {
-    "title": "Settings"
+    "title": "Settings",
+    "displaySection": "Display",
+    "theme": "Theme",
+    "themeSystem": "System",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "language": "Language",
+    "languageSystem": "System",
+    "languageEnglish": "English",
+    "languageRussian": "Russian",
+    "preferencesSection": "Preferences",
+    "hapticFeedback": "Haptic Feedback",
+    "notifications": "Notifications",
+    "aboutSection": "About",
+    "version": "Version",
+    "rateApp": "Rate App",
+    "privacyPolicy": "Privacy Policy",
+    "dangerSection": "Danger Zone",
+    "deleteAll": "Delete All Countdowns",
+    "deleteConfirmTitle": "Delete All?",
+    "deleteConfirmMessage": "This will permanently delete all your countdowns. This action cannot be undone.",
+    "deleteConfirmButton": "Delete All",
+    "cancel": "Cancel"
   },
   "tabs": {
     "home": "Home",

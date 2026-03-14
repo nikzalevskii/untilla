@@ -4,12 +4,20 @@ export const useStyles = createStyles(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: theme.spacing.lg,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  content: {
+    paddingTop: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.xl,
+    paddingBottom: 120,
+  },
+  header: {
+    marginBottom: theme.spacing['3xl'],
   },
   title: {
-    ...theme.typography.title1,
+    ...theme.typography.screenTitle,
     color: theme.colors.text,
   },
 }))

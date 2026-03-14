@@ -62,7 +62,29 @@
     "categoryOther": "Другое"
   },
   "settings": {
-    "title": "Настройки"
+    "title": "Настройки",
+    "displaySection": "Отображение",
+    "theme": "Тема",
+    "themeSystem": "Системная",
+    "themeLight": "Светлая",
+    "themeDark": "Тёмная",
+    "language": "Язык",
+    "languageSystem": "Системный",
+    "languageEnglish": "English",
+    "languageRussian": "Русский",
+    "preferencesSection": "Настройки",
+    "hapticFeedback": "Вибрация",
+    "notifications": "Уведомления",
+    "aboutSection": "О приложении",
+    "version": "Версия",
+    "rateApp": "Оценить приложение",
+    "privacyPolicy": "Политика конфиденциальности",
+    "dangerSection": "Опасная зона",
+    "deleteAll": "Удалить все отсчёты",
+    "deleteConfirmTitle": "Удалить всё?",
+    "deleteConfirmMessage": "Все отсчёты будут удалены безвозвратно. Это действие нельзя отменить.",
+    "deleteConfirmButton": "Удалить всё",
+    "cancel": "Отмена"
   },
   "tabs": {
     "home": "Главная",
