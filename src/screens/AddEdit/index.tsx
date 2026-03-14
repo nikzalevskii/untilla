@@ -1,5 +1,12 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { Platform, Pressable, ScrollView, Switch, Text, View } from 'react-native'
+import {
+  Platform,
+  Pressable,
+  ScrollView,
+  Switch,
+  Text,
+  View,
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import DateTimePicker, {
   DateTimePickerEvent,
@@ -74,7 +81,9 @@ export const AddEditScreen = ({ route, navigation }: Props) => {
         category,
         note: note.trim() || undefined,
         notificationsEnabled,
-        notificationOffsets: notificationsEnabled ? DEFAULT_NOTIFICATION_OFFSETS : [],
+        notificationOffsets: notificationsEnabled
+          ? DEFAULT_NOTIFICATION_OFFSETS
+          : [],
       })
     } else {
       createCountdown({
@@ -85,7 +94,9 @@ export const AddEditScreen = ({ route, navigation }: Props) => {
         category,
         note: note.trim() || undefined,
         notificationsEnabled,
-        notificationOffsets: notificationsEnabled ? DEFAULT_NOTIFICATION_OFFSETS : [],
+        notificationOffsets: notificationsEnabled
+          ? DEFAULT_NOTIFICATION_OFFSETS
+          : [],
       })
     }
 
