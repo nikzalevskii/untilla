@@ -1,8 +1,9 @@
-import React, { useCallback, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/hooks'
+import { navigationRef } from '@/navigation/navigationRef'
 import { useStyles } from './styles'
 import { TabBarItem } from '@/components/TabBarItem'
 import { FabButton } from '@/components/FabButton'
@@ -12,19 +13,27 @@ import { SettingsIcon } from '@/components/ui/icons/SettingsIcon'
 const PILL_HEIGHT = 64
 const BOTTOM_MARGIN = 16
 
-export function FloatingTabBar({
-  state,
-  descriptors,
-  navigation,
-}: BottomTabBarProps) {
+// WHY navigationRef instead of BottomTabBarProps: renders as absolute overlay
+// above Tab.Navigator, bypassing RN's opaque tab bar wrapper View.
+export function FloatingTabBar() {
   const { colors } = useTheme()
+  const { t } = useTranslation()
   const styles = useStyles()
   const insets = useSafeAreaInsets()
 
+  // WHY useState + listener: re-renders on every tab switch via navigationRef.
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const unsubscribe = navigationRef.addListener('state', () => {
+      const state = navigationRef.getState()
+      if (state) setActiveIndex(state.index)
+    })
+    return unsubscribe
+  }, [])
+
   const bottomInset = Math.max(insets.bottom, 0)
 
-  // WHY без FAB_OVERHANG: в Pencil дизайне FAB находится внутри pill (56px в 64px pill),
-  // а не плавает над ним. Wrapper высота = только pill + отступы.
   const wrapperStyle = useMemo(
     () => ({ height: bottomInset + BOTTOM_MARGIN + PILL_HEIGHT }),
     [bottomInset],
@@ -35,72 +44,49 @@ export function FloatingTabBar({
     [bottomInset],
   )
 
-  const handleTabPress = useCallback(
-    (routeName: string, routeKey: string, isFocused: boolean) => {
-      const event = navigation.emit({
-        type: 'tabPress',
-        target: routeKey,
-        canPreventDefault: true,
-      })
-      if (!isFocused && !event.defaultPrevented) {
-        navigation.navigate(routeName)
-      }
-    },
-    [navigation],
-  )
+  const isHomeActive     = activeIndex === 0
+  const isAddActive      = activeIndex === 1
+  const isSettingsActive = activeIndex === 2
 
-  const homeRoute = state.routes[0]
-  const addRoute = state.routes[1]
-  const settingsRoute = state.routes[2]
+  // WHY no useCallback: TabBarItem/FabButton are not wrapped in React.memo,
+  // so stable references provide zero benefit. Deps change on every tab switch anyway.
+  const handleHomePress = () => {
+    if (!isHomeActive && navigationRef.isReady()) {
+      navigationRef.navigate('HomeTab' as never)
+    }
+  }
 
-  const isHomeActive = state.index === 0
-  const isAddActive = state.index === 1
-  const isSettingsActive = state.index === 2
+  const handleAddPress = () => {
+    if (!isAddActive && navigationRef.isReady()) {
+      navigationRef.navigate('AddEditTab' as never)
+    }
+  }
 
-  const handleHomePress = useCallback(
-    () => handleTabPress(homeRoute.name, homeRoute.key, isHomeActive),
-    [handleTabPress, homeRoute.name, homeRoute.key, isHomeActive],
-  )
+  const handleSettingsPress = () => {
+    if (!isSettingsActive && navigationRef.isReady()) {
+      navigationRef.navigate('SettingsTab' as never)
+    }
+  }
 
-  const handleAddPress = useCallback(
-    () => handleTabPress(addRoute.name, addRoute.key, isAddActive),
-    [handleTabPress, addRoute.name, addRoute.key, isAddActive],
-  )
-
-  const handleSettingsPress = useCallback(
-    () =>
-      handleTabPress(settingsRoute.name, settingsRoute.key, isSettingsActive),
-    [handleTabPress, settingsRoute.name, settingsRoute.key, isSettingsActive],
-  )
-
-  const homeLabel =
-    (descriptors[homeRoute.key].options.tabBarLabel as string) ?? 'Home'
-  const settingsLabel =
-    (descriptors[settingsRoute.key].options.tabBarLabel as string) ?? 'Settings'
-
-  // WHY white для active: Pencil рисует active tab с фиолетовым фоном,
-  // иконка и текст должны быть белыми для контраста.
-  // Inactive использует tabInactive (не textSecondary) — отдельный серый оттенок из Pencil.
-  const homeIconColor = isHomeActive ? '#FFFFFF' : colors.tabInactive
+  // WHY white for active: active tab has violet background, needs white for contrast.
+  const homeIconColor     = isHomeActive     ? '#FFFFFF' : colors.tabInactive
   const settingsIconColor = isSettingsActive ? '#FFFFFF' : colors.tabInactive
 
   return (
-    <View style={[styles.wrapper, wrapperStyle]}>
-      <View style={[styles.container, containerStyle]}>
+    <View style={[styles.wrapper, wrapperStyle]} pointerEvents="box-none">
+      <View style={[styles.container, containerStyle]} pointerEvents="box-none">
         <View style={styles.pill}>
           <TabBarItem
             Icon={HomeIcon}
-            label={homeLabel}
+            label={t('tabs.home')}
             isActive={isHomeActive}
             iconColor={homeIconColor}
             onPress={handleHomePress}
           />
-          {/* WHY FAB внутри pill: Pencil показывает + кнопку между табами внутри pill-бара.
-              56px FAB вписывается в 64px pill с 4px padding = ровно по высоте. */}
           <FabButton onPress={handleAddPress} />
           <TabBarItem
             Icon={SettingsIcon}
-            label={settingsLabel}
+            label={t('tabs.settings')}
             isActive={isSettingsActive}
             iconColor={settingsIconColor}
             onPress={handleSettingsPress}

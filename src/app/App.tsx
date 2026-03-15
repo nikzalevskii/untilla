@@ -1,6 +1,7 @@
 import i18n from '@/i18n'
 import { useTheme } from '@/hooks'
 import { RootNavigator } from '@/navigation'
+import { navigationRef } from '@/navigation/navigationRef'
 import { getNavigationTheme } from '@/navigation/theme'
 import { ThemeProvider } from '@/theme'
 import { NavigationContainer } from '@react-navigation/native'
@@ -62,7 +63,7 @@ function AppContent() {
   return (
     <>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-      <NavigationContainer theme={navigationTheme}>
+      <NavigationContainer ref={navigationRef} theme={navigationTheme}>
         <RootNavigator />
       </NavigationContainer>
     </>

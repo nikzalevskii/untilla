@@ -4,18 +4,22 @@ import { createStyles } from '@/theme/createStyles'
 const PILL_HEIGHT = 64
 
 export const useStyles = createStyles(theme => ({
+  // WHY absolute + transparent: overlay above Tab.Navigator.
+  // pointerEvents="box-none" (in component) passes touches through to content.
   wrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'transparent',
   },
-  // WHY без paddingTop: FAB теперь внутри pill, не нужен overhang сверху.
   container: {
     position: 'absolute',
     left: 16,
     right: 16,
     alignItems: 'center',
   },
-  // WHY borderColor из Pencil (#E8E4DF/#2E2E2E): тёплый серый, не холодный neutral200.
-  // Shadow: blur 16 y:4 — мягкая тень без "floating card" эффекта.
+  // WHY warm border (#E8E4DF/#2E2E2E): matches Pencil design, not cold neutral200.
   pill: {
     width: '100%',
     height: PILL_HEIGHT,

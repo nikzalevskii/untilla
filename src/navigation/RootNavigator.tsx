@@ -1,8 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useTranslation } from 'react-i18next'
-import { useCallback, useMemo } from 'react'
+import { View } from 'react-native'
 import { AddEditScreen, SettingsScreen } from '@/screens'
 import { FloatingTabBar } from '@/components/FloatingTabBar'
 import { HomeStack } from './HomeStack'
@@ -12,9 +10,16 @@ const Tab = createBottomTabNavigator<RootTabParamList>()
 const AddEditStack = createNativeStackNavigator<AddEditParamList>()
 const SettingsStack = createNativeStackNavigator<SettingsParamList>()
 
-// WHY freezeOnBlur: CLAUDE.md STRICT — замораживает компонент когда экран не на переднем плане.
-// React не обрабатывает state updates, экономит CPU на вложенных навигаторах.
+// WHY freezeOnBlur: freezes off-screen components, saves CPU on nested navigators.
 const STACK_OPTIONS = { headerShown: false, freezeOnBlur: true } as const
+
+const SCREEN_OPTIONS = { headerShown: false } as const
+
+// WHY () => null: hides default tab bar. FloatingTabBar renders as absolute overlay
+// on top of the navigator, bypassing RN's opaque tab bar wrapper View.
+const HIDE_DEFAULT_TAB_BAR = () => null
+
+const ROOT_STYLE = { flex: 1 } as const
 
 function AddEditNavigator() {
   return (
@@ -33,39 +38,15 @@ function SettingsNavigator() {
 }
 
 export function RootNavigator() {
-  const { t } = useTranslation()
-
-  const renderTabBar = useCallback(
-    (props: BottomTabBarProps) => <FloatingTabBar {...props} />,
-    [],
-  )
-
-  const screenOptions = useMemo(() => ({ headerShown: false }), [])
-
-  const homeTabOptions = useMemo(() => ({ tabBarLabel: t('tabs.home') }), [t])
-  const addTabOptions = useMemo(() => ({ tabBarLabel: t('tabs.add') }), [t])
-  const settingsTabOptions = useMemo(
-    () => ({ tabBarLabel: t('tabs.settings') }),
-    [t],
-  )
-
   return (
-    <Tab.Navigator screenOptions={screenOptions} tabBar={renderTabBar}>
-      <Tab.Screen
-        name="HomeTab"
-        component={HomeStack}
-        options={homeTabOptions}
-      />
-      <Tab.Screen
-        name="AddEditTab"
-        component={AddEditNavigator}
-        options={addTabOptions}
-      />
-      <Tab.Screen
-        name="SettingsTab"
-        component={SettingsNavigator}
-        options={settingsTabOptions}
-      />
-    </Tab.Navigator>
+    <View style={ROOT_STYLE}>
+      <Tab.Navigator screenOptions={SCREEN_OPTIONS} tabBar={HIDE_DEFAULT_TAB_BAR}>
+        <Tab.Screen name="HomeTab" component={HomeStack} />
+        <Tab.Screen name="AddEditTab" component={AddEditNavigator} />
+        <Tab.Screen name="SettingsTab" component={SettingsNavigator} />
+      </Tab.Navigator>
+      {/* Later in JSX = higher in z-order. Renders as absolute overlay above screens. */}
+      <FloatingTabBar />
+    </View>
   )
 }
