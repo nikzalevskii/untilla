@@ -13,7 +13,7 @@ const SettingsStack = createNativeStackNavigator<SettingsParamList>()
 // WHY freezeOnBlur: freezes off-screen components, saves CPU on nested navigators.
 const STACK_OPTIONS = { headerShown: false, freezeOnBlur: true } as const
 
-const SCREEN_OPTIONS = { headerShown: false } as const
+const SCREEN_OPTIONS = { headerShown: false, freezeOnBlur: true } as const
 
 // WHY () => null: hides default tab bar. FloatingTabBar renders as absolute overlay
 // on top of the navigator, bypassing RN's opaque tab bar wrapper View.
