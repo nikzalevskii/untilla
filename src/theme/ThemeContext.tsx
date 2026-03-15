@@ -6,6 +6,7 @@ import { spacing } from './spacing'
 import { typography } from './typography'
 import { borderRadius } from './borderRadius'
 import { shadows } from './shadows'
+import { useSettingsStore } from '@/store'
 
 export const ThemeContext = createContext<Theme | null>(null)
 
@@ -14,9 +15,13 @@ interface Props {
 }
 export function ThemeProvider({ children }: Props) {
   const colorScheme = useColorScheme()
-  // TODO: убрать после проверки тёмной темы
-  // const isDark = true // colorScheme === 'dark'
-  const isDark = colorScheme === 'dark'
+  const themePreference = useSettingsStore(s => s.settings.themePreference)
+
+  // 'system' → follow device setting, 'light'/'dark' → explicit override
+  const isDark =
+    themePreference === 'system'
+      ? colorScheme === 'dark'
+      : themePreference === 'dark'
 
   const theme = useMemo(
     () => ({

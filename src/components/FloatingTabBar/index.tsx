@@ -12,7 +12,11 @@ import { SettingsIcon } from '@/components/ui/icons/SettingsIcon'
 const PILL_HEIGHT = 64
 const BOTTOM_MARGIN = 16
 
-export function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+export function FloatingTabBar({
+  state,
+  descriptors,
+  navigation,
+}: BottomTabBarProps) {
   const { colors } = useTheme()
   const styles = useStyles()
   const insets = useSafeAreaInsets()
@@ -45,12 +49,12 @@ export function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarP
     [navigation],
   )
 
-  const homeRoute     = state.routes[0]
-  const addRoute      = state.routes[1]
+  const homeRoute = state.routes[0]
+  const addRoute = state.routes[1]
   const settingsRoute = state.routes[2]
 
-  const isHomeActive     = state.index === 0
-  const isAddActive      = state.index === 1
+  const isHomeActive = state.index === 0
+  const isAddActive = state.index === 1
   const isSettingsActive = state.index === 2
 
   const handleHomePress = useCallback(
@@ -64,17 +68,20 @@ export function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarP
   )
 
   const handleSettingsPress = useCallback(
-    () => handleTabPress(settingsRoute.name, settingsRoute.key, isSettingsActive),
+    () =>
+      handleTabPress(settingsRoute.name, settingsRoute.key, isSettingsActive),
     [handleTabPress, settingsRoute.name, settingsRoute.key, isSettingsActive],
   )
 
-  const homeLabel     = descriptors[homeRoute.key].options.tabBarLabel as string ?? 'Home'
-  const settingsLabel = descriptors[settingsRoute.key].options.tabBarLabel as string ?? 'Settings'
+  const homeLabel =
+    (descriptors[homeRoute.key].options.tabBarLabel as string) ?? 'Home'
+  const settingsLabel =
+    (descriptors[settingsRoute.key].options.tabBarLabel as string) ?? 'Settings'
 
   // WHY white для active: Pencil рисует active tab с фиолетовым фоном,
   // иконка и текст должны быть белыми для контраста.
   // Inactive использует tabInactive (не textSecondary) — отдельный серый оттенок из Pencil.
-  const homeIconColor     = isHomeActive     ? '#FFFFFF' : colors.tabInactive
+  const homeIconColor = isHomeActive ? '#FFFFFF' : colors.tabInactive
   const settingsIconColor = isSettingsActive ? '#FFFFFF' : colors.tabInactive
 
   return (

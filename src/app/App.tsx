@@ -1,4 +1,4 @@
-import '@/i18n'
+import i18n from '@/i18n'
 import { useTheme } from '@/hooks'
 import { RootNavigator } from '@/navigation'
 import { getNavigationTheme } from '@/navigation/theme'
@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/theme'
 import { NavigationContainer } from '@react-navigation/native'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { StatusBar } from 'react-native'
+import { getLocales } from 'react-native-localize'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { SplashScreen } from '@/screens'
 import { useCountdownStore, useSettingsStore } from '@/store'
@@ -36,6 +37,18 @@ function AppContent() {
     initializeCountdowns()
     initializeSettings()
   }, [initializeCountdowns, initializeSettings])
+
+  // Sync store language → i18next.
+  // 'system' resolves to device language, 'en'/'ru' → explicit override.
+  const language = useSettingsStore(s => s.settings.language)
+
+  useEffect(() => {
+    const resolved =
+      language === 'system'
+        ? getLocales()[0]?.languageCode || 'en'
+        : language
+    i18n.changeLanguage(resolved)
+  }, [language])
 
   if (!splashDone) {
     return (
