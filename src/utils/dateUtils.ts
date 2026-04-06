@@ -20,6 +20,13 @@ export function isPast(date: DateInput): boolean {
 }
 
 // Locale-aware date formatting via Intl.DateTimeFormat (supported in Hermes)
+// Approximate months + remaining days (30 days = 1 month)
+export function splitDaysToMonths(totalDays: number): { months: number; days: number } {
+  const months = Math.floor(totalDays / 30)
+  const days = totalDays % 30
+  return { months, days }
+}
+
 export function formatDate(
   date: DateInput,
   locale: string = 'en',
