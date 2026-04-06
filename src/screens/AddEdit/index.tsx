@@ -37,6 +37,7 @@ export function AddEditScreen({ route, navigation }: Props) {
   const styles = useStyles()
   const { colors, isDark } = useTheme()
   const { t } = useTranslation()
+  const isAndroid = Platform.OS === 'android'
 
   const editId = route.params?.id
   const isEditing = !!editId
@@ -164,27 +165,37 @@ export function AddEditScreen({ route, navigation }: Props) {
         {/* Date */}
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>{t('addEdit.dateLabel')}</Text>
-          <Pressable
-            onPress={handleDatePress}
-            style={({ pressed }) => [
-              styles.dateButton,
-              pressed && styles.dateButtonPressed,
-            ]}
-          >
-            <Text style={styles.dateText}>{formattedDate}</Text>
-            <CalendarIcon color={colors.textSecondary} />
-          </Pressable>
+          {isAndroid ? (
+            <>
+              <Pressable
+                onPress={handleDatePress}
+                style={({ pressed }) => [
+                  styles.dateButton,
+                  pressed && styles.dateButtonPressed,
+                ]}
+              >
+                <Text style={styles.dateText}>{formattedDate}</Text>
+                <CalendarIcon color={colors.textSecondary} />
+              </Pressable>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={dateValue}
+                  mode="date"
+                  display="default"
+                  onChange={handleDateChange}
+                />
+              )}
+            </>
+          ) : (
+            <DateTimePicker
+              value={dateValue}
+              mode="date"
+              display="compact"
+              onChange={handleDateChange}
+              themeVariant={isDark ? 'dark' : 'light'}
+            />
+          )}
         </View>
-
-        {showDatePicker && (
-          <DateTimePicker
-            value={dateValue}
-            mode="date"
-            display={Platform.OS === 'ios' ? 'inline' : 'default'}
-            onChange={handleDateChange}
-            themeVariant={isDark ? 'dark' : 'light'}
-          />
-        )}
 
         {/* Mode */}
         <View style={styles.section}>
