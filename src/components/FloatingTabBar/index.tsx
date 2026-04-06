@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/hooks'
@@ -11,7 +11,8 @@ import { HomeIcon } from '@/components/ui/icons/HomeIcon'
 import { SettingsIcon } from '@/components/ui/icons/SettingsIcon'
 
 const PILL_HEIGHT = 64
-const BOTTOM_MARGIN = 16
+const BOTTOM_MARGIN_ANDROID = 0
+const BOTTOM_MARGIN_IOS = -12
 
 // WHY navigationRef instead of BottomTabBarProps: renders as absolute overlay
 // above Tab.Navigator, bypassing RN's opaque tab bar wrapper View.
@@ -20,6 +21,7 @@ export function FloatingTabBar() {
   const { t } = useTranslation()
   const styles = useStyles()
   const insets = useSafeAreaInsets()
+  const isAndroid = Platform.OS === 'android'
 
   // WHY useState + listener: re-renders on every tab switch via navigationRef.
   const [activeIndex, setActiveIndex] = useState(0)
@@ -32,16 +34,18 @@ export function FloatingTabBar() {
     return unsubscribe
   }, [])
 
+  const bottomMargin = isAndroid ? BOTTOM_MARGIN_ANDROID : BOTTOM_MARGIN_IOS
   const bottomInset = Math.max(insets.bottom, 0)
+  const bottomOffset = Math.max(bottomInset + bottomMargin, 0)
 
   const wrapperStyle = useMemo(
-    () => ({ height: bottomInset + BOTTOM_MARGIN + PILL_HEIGHT }),
-    [bottomInset],
+    () => ({ height: bottomOffset + PILL_HEIGHT }),
+    [bottomOffset],
   )
 
   const containerStyle = useMemo(
-    () => ({ bottom: bottomInset + BOTTOM_MARGIN }),
-    [bottomInset],
+    () => ({ bottom: bottomOffset }),
+    [bottomOffset],
   )
 
   const isHomeActive     = activeIndex === 0
