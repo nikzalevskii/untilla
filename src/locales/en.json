@@ -26,9 +26,6 @@
     "fullAgo": "{{time}} ago",
     "fullSince": "{{time}} since"
   },
-  "countdownDetail": {
-    "title": "Countdown Detail"
-  },
   "addEdit": {
     "newTitle": "New Countdown",
     "editTitle": "Edit Countdown",
@@ -78,6 +75,24 @@
     "deleteConfirmTitle": "Delete All?",
     "deleteConfirmMessage": "This will permanently delete all your countdowns. This action cannot be undone.",
     "deleteConfirmButton": "Delete All",
+    "cancel": "Cancel"
+  },
+  "countdownDetail": {
+    "title": "Details",
+    "edit": "Edit",
+    "editCountdown": "Edit Countdown",
+    "back": "Back",
+    "share": "Share",
+    "delete": "Delete",
+    "note": "NOTE",
+    "months": "MONTHS",
+    "days": "DAYS",
+    "hours": "HOURS",
+    "minutes": "MIN",
+    "notFound": "Countdown not found",
+    "deleteConfirmTitle": "Delete Countdown",
+    "deleteConfirmMessage": "This action cannot be undone.",
+    "deleteConfirmButton": "Delete",
     "cancel": "Cancel"
   },
   "tabs": {

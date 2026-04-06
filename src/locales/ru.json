@@ -33,7 +33,22 @@
     "fullSince": "{{time}} прошло"
   },
   "countdownDetail": {
-    "title": "Детали отсчёта"
+    "title": "Детали",
+    "edit": "Редактировать",
+    "editCountdown": "Редактировать отсчёт",
+    "back": "Назад",
+    "share": "Поделиться",
+    "delete": "Удалить",
+    "note": "ЗАМЕТКА",
+    "months": "МЕСЯЦЫ",
+    "days": "ДНИ",
+    "hours": "ЧАСЫ",
+    "minutes": "МИН",
+    "notFound": "Отсчёт не найден",
+    "deleteConfirmTitle": "Удалить отсчёт",
+    "deleteConfirmMessage": "Это действие нельзя отменить.",
+    "deleteConfirmButton": "Удалить",
+    "cancel": "Отмена"
   },
   "addEdit": {
     "newTitle": "Новый отсчёт",
