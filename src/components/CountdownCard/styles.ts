@@ -3,7 +3,6 @@ import { createStyles } from '@/theme/createStyles'
 export const useStyles = createStyles(theme => ({
   card: {
     borderRadius: theme.borderRadius.xl,
-    padding: theme.spacing.xl,
     minHeight: 140,
     marginBottom: theme.spacing.md,
     ...theme.shadows.md,
@@ -13,6 +12,7 @@ export const useStyles = createStyles(theme => ({
     transform: [{ scale: 0.96 }],
   },
   content: {
+    padding: theme.spacing.xl,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

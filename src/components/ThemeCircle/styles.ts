@@ -1,4 +1,5 @@
 import { createStyles } from '@/theme/createStyles'
+import { Platform } from 'react-native'
 
 export const useStyles = createStyles(theme => ({
   circle: {
@@ -7,7 +8,7 @@ export const useStyles = createStyles(theme => ({
     borderRadius: 24,
   },
   circleSelected: {
-    borderWidth: 3,
+    borderWidth: Platform.OS === 'ios' ? 1.5 : 3,
     borderRadius: 24,
     borderColor: theme.colors.text,
   },
