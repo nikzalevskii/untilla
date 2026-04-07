@@ -56,7 +56,7 @@ export function FloatingTabBar() {
   // so stable references provide zero benefit. Deps change on every tab switch anyway.
   const handleHomePress = () => {
     if (!isHomeActive && navigationRef.isReady()) {
-      navigationRef.navigate('HomeTab' as never)
+      navigationRef.navigate('HomeTab', { screen: 'Home' })
     }
   }
 

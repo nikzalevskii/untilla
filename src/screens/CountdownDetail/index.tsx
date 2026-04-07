@@ -136,17 +136,14 @@ const handleBack = () => navigation.goBack()
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* ─── Gradient Hero ──────────────────────────────────── */}
         <LinearGradient
           colors={heroGradient}
           start={{ x: 0.5, y: 0 }}
           end={{ x: 0.5, y: 1 }}
           style={styles.hero}
         >
-          {/* Status bar spacer */}
           <SafeAreaView edges={['top']} style={styles.statusBarSpacer} />
 
-          {/* Nav bar */}
           <View style={styles.navBar}>
             <Pressable
               onPress={handleBack}
