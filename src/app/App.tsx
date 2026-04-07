@@ -8,13 +8,13 @@ import { NavigationContainer } from '@react-navigation/native'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { getLocales } from 'react-native-localize'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { initialWindowMetrics, SafeAreaProvider } from 'react-native-safe-area-context'
 import { SplashScreen } from '@/screens'
 import { useCountdownStore, useSettingsStore } from '@/store'
 
 function App() {
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ThemeProvider>
         <AppContent />
       </ThemeProvider>
