@@ -55,14 +55,17 @@ export function FloatingTabBar() {
   // WHY no useCallback: TabBarItem/FabButton are not wrapped in React.memo,
   // so stable references provide zero benefit. Deps change on every tab switch anyway.
   const handleHomePress = () => {
-    if (!isHomeActive && navigationRef.isReady()) {
+    if (navigationRef.isReady()) {
       navigationRef.navigate('HomeTab', { screen: 'Home' })
     }
   }
 
   const handleAddPress = () => {
-    if (!isAddActive && navigationRef.isReady()) {
-      navigationRef.navigate('AddEditTab' as never)
+    if (navigationRef.isReady()) {
+      navigationRef.navigate('AddEditTab', {
+        screen: 'AddEdit',
+        params: { id: undefined },
+      })
     }
   }
 

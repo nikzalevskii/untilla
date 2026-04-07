@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import {
   Platform,
   Pressable,
@@ -30,6 +30,7 @@ import { CalendarIcon } from '@/components/ui/icons/CalendarIcon'
 import { useStyles } from './styles'
 import type { AddEditParamList } from '@/navigation/types'
 import type { CountdownCategory, CountdownMode, CountdownTheme } from '@/types'
+import { useFocusEffect } from '@react-navigation/native'
 
 type Props = NativeStackScreenProps<AddEditParamList, 'AddEdit'>
 
@@ -67,10 +68,25 @@ export function AddEditScreen({ route, navigation }: Props) {
 
   const canSave = title.trim().length > 0
 
+  useFocusEffect(
+    useCallback(() => {
+      setTitle(existingCountdown?.title ?? '')
+      setTargetDate(existingCountdown?.targetDate ?? new Date().toISOString())
+      setMode(existingCountdown?.mode ?? DEFAULT_MODE)
+      setCategory(existingCountdown?.category)
+      setTheme(existingCountdown?.theme ?? DEFAULT_THEME)
+      setNote(existingCountdown?.note ?? '')
+      setNotificationsEnabled(existingCountdown?.notificationsEnabled ?? true)
+      setShowDatePicker(false)
+    }, [editId])
+  )
+
   const handleCancel = () => navigation.goBack()
 
   const handleSave = () => {
     if (!canSave) return
+
+    navigation.setParams({ id: undefined })
 
     if (isEditing && editId) {
       updateCountdown(editId, {
