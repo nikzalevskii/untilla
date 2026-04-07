@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeTopView } from '@/components/ui/SafeTopView'
 import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker'
@@ -142,7 +142,7 @@ export function AddEditScreen({ route, navigation }: Props) {
   })
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeTopView style={styles.container}>
       {/* Header: Cancel / Title / Save */}
       <View style={styles.header}>
         <Pressable onPress={handleCancel} style={styles.headerButton}>
@@ -262,6 +262,6 @@ export function AddEditScreen({ route, navigation }: Props) {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeTopView>
   )
 }

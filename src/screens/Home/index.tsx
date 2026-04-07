@@ -4,7 +4,7 @@ import { HomeStackParamList } from '@/navigation'
 import { useActiveCountdowns, useIsCountdownsLoading } from '@/store'
 import { useCallback } from 'react'
 import { Countdown } from '@/types'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeTopView } from '@/components/ui/SafeTopView'
 import { FlashList } from '@shopify/flash-list'
 import { CountdownCard, EmptyState, HomeHeader } from '@/components'
 
@@ -40,11 +40,11 @@ export const HomeScreen = ({ navigation }: Props) => {
   const keyExtractor = useCallback((item: Countdown) => item.id, [])
 
   if (isLoading) {
-    return <SafeAreaView style={styles.container} edges={['top']} />
+    return <SafeTopView style={styles.container} />
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeTopView style={styles.container}>
       <HomeHeader />
         {countdowns.length === 0 ? (
         <EmptyState onAdd={handleAdd} />
@@ -57,6 +57,6 @@ export const HomeScreen = ({ navigation }: Props) => {
           showsVerticalScrollIndicator={false}
         />
       )}
-    </SafeAreaView>
+    </SafeTopView>
   )
 }

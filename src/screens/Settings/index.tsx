@@ -1,5 +1,5 @@
 import { Alert, Linking, ScrollView, Switch, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeTopView } from '@/components/ui/SafeTopView'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/hooks'
 import { useSettingsStore, useCountdownStore } from '@/store'
@@ -76,7 +76,8 @@ export function SettingsScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeTopView style={styles.container}>
+      {/* <View style={styles.container}> */}
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.content}
@@ -163,6 +164,7 @@ export function SettingsScreen() {
           />
         </SettingsSection>
       </ScrollView>
-    </SafeAreaView>
+      {/* </View> */}
+    </SafeTopView>
   )
 }
