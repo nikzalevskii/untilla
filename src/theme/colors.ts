@@ -25,6 +25,24 @@ const palette = {
   black: '#000000',
 } as const
 
+// White overlays for content on gradients/colored backgrounds
+export const overlay = {
+  /** Icons on gradient hero (arrows, share) */
+  icon: '#FFFFFFE6',         // 90% white
+  /** Primary text on gradient (numbers, titles) */
+  text: '#FFFFFF',           // 100% white
+  /** Secondary text on gradient (labels) */
+  textSecondary: 'rgba(255, 255, 255, 0.8)',  // 80% white
+  /** Tertiary text on gradient (timestamps) */
+  textTertiary: 'rgba(255, 255, 255, 0.5)',   // 50% white
+  /** Subtle borders/dividers on dark surfaces */
+  border: 'rgba(255, 255, 255, 0.07)',        // 7% white
+  /** SVG ring track on gradient */
+  ringTrack: 'rgba(255, 255, 255, 0.08)',     // 8% white
+  /** SVG ring progress on gradient */
+  ringProgress: 'rgba(255, 255, 255, 0.2)',   // 20% white
+} as const
+
 export type ColorScheme = {
   background: string
   surface: string

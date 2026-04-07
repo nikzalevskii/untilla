@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import Svg, { Circle } from 'react-native-svg'
+import { overlay } from '@/theme/colors'
 
 type Props = {
   progress: number
@@ -13,8 +14,8 @@ function ProgressRingComponent({
   progress,
   size,
   strokeWidth,
-  trackColor = 'rgba(255, 255, 255, 0.08)',
-  progressColor = 'rgba(255, 255, 255, 0.2)',
+  trackColor = overlay.ringTrack,
+  progressColor = overlay.ringProgress,
 }: Props) {
   const radius = (size - strokeWidth) / 2
   const circumference = 2 * Math.PI * radius

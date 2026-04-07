@@ -1,4 +1,5 @@
 import { createStyles } from '@/theme/createStyles'
+import { overlay } from '@/theme/colors'
 
 export const useStyles = createStyles(theme => ({
   container: {
@@ -6,15 +7,15 @@ export const useStyles = createStyles(theme => ({
     backgroundColor: theme.colors.background,
   },
   scrollContent: {
-    paddingBottom: 120, 
+    paddingBottom: 120,
   },
   hero: {
-    height: 350,
     alignItems: 'center',
-    paddingHorizontal: theme.spacing.xl, // 20
   },
   statusBarSpacer: {
     width: '100%',
+    paddingHorizontal: theme.spacing.xl,
+    paddingBottom: theme.spacing['3xl'],
   },
   navBar: {
     flexDirection: 'row',
@@ -25,7 +26,7 @@ export const useStyles = createStyles(theme => ({
   },
 
   ringContainer: {
-    flex: 1,
+     height: 200,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -42,19 +43,19 @@ export const useStyles = createStyles(theme => ({
     fontSize: 64,
     fontWeight: '800',
     letterSpacing: -2,
-    color: '#FFFFFF',
+    color: overlay.text,
   },
   heroLabel: {
     fontFamily: 'DMSans-Medium',
     fontSize: 15,
     fontWeight: '500',
-    color: 'rgba(255, 255, 255, 0.8)', // #FFFFFFCC
+    color: overlay.textSecondary,
   },
   heroTime: {
     fontFamily: 'DMSans-Regular',
     fontSize: 12,
     fontWeight: '400',
-    color: 'rgba(255, 255, 255, 0.5)', // #FFFFFF80
+    color: overlay.textTertiary,
   },
 
   contentArea: {
@@ -91,7 +92,7 @@ export const useStyles = createStyles(theme => ({
     borderRadius: theme.borderRadius.xl, // 20
     paddingVertical: theme.spacing.sm, // 8
     paddingHorizontal: theme.spacing.md, // 12
-    backgroundColor: theme.isDark ? '#2D1B69' : '#F5F3FF',
+    backgroundColor: theme.colors.primaryLight,
   },
   categoryDot: {
     width: 8,
@@ -100,7 +101,7 @@ export const useStyles = createStyles(theme => ({
   },
   categoryText: {
     ...theme.typography.label, // 13px/500
-    color: theme.isDark ? '#A78BFA' : '#7C3AED',
+    color: theme.colors.primary,
   },
 
   breakdownContainer: {
@@ -181,7 +182,7 @@ export const useStyles = createStyles(theme => ({
       : theme.colors.surface, // #FFFFFF
     ...(theme.isDark && {
       borderWidth: 1,
-      borderColor: 'rgba(255, 255, 255, 0.07)', // #FFFFFF12
+      borderColor: overlay.border,
     }),
   },
   editButtonText: {
@@ -194,7 +195,7 @@ export const useStyles = createStyles(theme => ({
     fontFamily: 'DMSans-Medium',
     fontSize: 15,
     fontWeight: '500',
-    color: '#DC2626', // both themes
+    color: theme.colors.error,
   },
 
   emptyContainer: {

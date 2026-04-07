@@ -11,12 +11,9 @@ import type { HomeStackParamList } from '@/navigation/types'
 
 type Navigation = NativeStackNavigationProp<HomeStackParamList, 'CountdownDetail'>
 
-type Props = {
-  navigation: Navigation
-  id: string
-}
 
-export function useCountdownDetail({ navigation, id }: Props) {
+
+export function useCountdownDetail( id: string, navigation: Navigation ) {
   const { isDark, colors } = useTheme()
   const { t, i18n } = useTranslation()
   const countdown = useCountdownById(id)
