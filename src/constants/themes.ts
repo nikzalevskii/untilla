@@ -1,4 +1,3 @@
-import type { CountdownTheme } from '@/types'
 import { countdownThemes } from '@/types/countdown'
 
 // Order = display order in ThemePicker
