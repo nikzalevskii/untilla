@@ -10,6 +10,7 @@ type Props = {
   placeholder?: string
   maxLength?: number
   multiline?: boolean
+  error?: string
 }
 
 function FormInputComponent({
@@ -19,6 +20,7 @@ function FormInputComponent({
   placeholder,
   maxLength,
   multiline = false,
+  error
 }: Props) {
   const styles = useStyles()
   const { colors } = useTheme()
@@ -27,7 +29,11 @@ function FormInputComponent({
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <TextInput
-        style={[styles.input, multiline && styles.inputMultiline]}
+        style={[
+          styles.input,
+          multiline && styles.inputMultiline, 
+          error && styles.inputError
+        ]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
@@ -36,6 +42,7 @@ function FormInputComponent({
         multiline={multiline}
         textAlignVertical={multiline ? 'top' : 'center'}
       />
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   )
 }

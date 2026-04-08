@@ -25,4 +25,12 @@ export const useStyles = createStyles(theme => ({
     paddingTop: theme.spacing.lg,
     paddingBottom: theme.spacing.lg,
   },
+  inputError: {
+    borderWidth: 1,
+    borderColor: theme.colors.error,
+  },
+  errorText: {
+    ...theme.typography.caption,
+    color: theme.colors.error,
+  },
 }))
