@@ -1,3 +1,5 @@
+export { countdownModes, countdownThemes, countdownCategories } from './countdown'
+
 export type {
   Countdown,
   CountdownMode,

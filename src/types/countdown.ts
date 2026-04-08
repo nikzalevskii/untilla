@@ -1,20 +1,12 @@
-// "How many days left?" vs "How many days since?"
-export type CountdownMode = 'countdown' | 'countup'
+// Counting direction: "days left" (countdown) vs "days since" (countup)
+export const countdownModes = ['countdown', 'countup'] as const
+export type CountdownMode = (typeof countdownModes)[number]
 
-// Optional tag for grouping/filtering. Stored as a string key, not a number,
-// so storage remains human-readable ("birthday" instead of 2).
-export type CountdownCategory =
-  | 'birthday'
-  | 'holiday'
-  | 'travel'
-  | 'anniversary'
-  | 'work'
-  | 'health'
-  | 'personal'
-  | 'other'
+// Grouping tag. String key for human-readable storage ("birthday", not 2)
+export const countdownCategories = ['birthday', 'holiday', 'travel', 'anniversary', 'work', 'health', 'personal', 'other'] as const
+export type CountdownCategory = (typeof countdownCategories)[number]
 
-// Card colour theme. Stored as a string key rather than a hex value so that
-// the same key ('violet') can resolve to different gradients in light vs dark mode.
+// Card gradient theme. String key resolves to different gradients in light/dark mode
 export const countdownThemes = ['violet', 'rose', 'amber', 'emerald', 'sky', 'slate'] as const
 export type CountdownTheme = (typeof countdownThemes)[number]
 
