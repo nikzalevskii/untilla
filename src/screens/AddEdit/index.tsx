@@ -1,6 +1,5 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import {
-  Platform,
   Pressable,
   ScrollView,
   Switch,
@@ -8,9 +7,6 @@ import {
   View,
 } from 'react-native'
 import { SafeTopView } from '@/components/ui/SafeTopView'
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from '@react-native-community/datetimepicker'
 import { useTranslation } from 'react-i18next'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useTheme } from '@/hooks'
@@ -26,35 +22,31 @@ import {
   ThemePicker,
   ModeToggle,
 } from '@/components'
-import { CalendarIcon } from '@/components/ui/icons/CalendarIcon'
 import type { AddEditParamList } from '@/navigation/types'
 import { useFocusEffect } from '@react-navigation/native'
 import { Controller, useForm } from 'react-hook-form'
 import { CountdownFormData, CountdownFormInput, countdownFormSchema } from './schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useStyles } from './styles'
+import { SaveButton } from './SaveButton'
+import { DateSection } from './DateSection'
 
 type Props = NativeStackScreenProps<AddEditParamList, 'AddEdit'>
 
 export function AddEditScreen({ route, navigation }: Props) {
   const styles = useStyles()
-  const { colors, isDark } = useTheme()
-  const { t, i18n } = useTranslation()
-  const isAndroid = Platform.OS === 'android'
+  const { colors } = useTheme()
+  const { t } = useTranslation()
 
   const editId = route.params?.id
   const isEditing = !!editId
   const existingCountdown = useCountdownById(editId ?? '')
 
-  const [showDatePicker, setShowDatePicker] = useState(false)
-
   const { 
     control, 
     handleSubmit, 
     reset, 
-    watch, 
     setValue, 
-    formState: { errors } 
   } = useForm<CountdownFormInput, unknown, CountdownFormData>({
     resolver: zodResolver(countdownFormSchema),
     defaultValues: {
@@ -84,9 +76,6 @@ export function AddEditScreen({ route, navigation }: Props) {
 
   const createCountdown = useCountdownStore(state => state.createCountdown)
   const updateCountdown = useCountdownStore(state => state.updateCountdown)
-
-  const titleValue = watch('title')
-  const canSave = titleValue.trim().length > 0
 
   const handleCancel = () => navigation.goBack()
 
@@ -123,30 +112,6 @@ export function AddEditScreen({ route, navigation }: Props) {
     navigation.goBack()
   }
 
-  const targetDateValue = watch('targetDate')
-  const dateValue = new Date(targetDateValue)
-  const formattedDate = dateValue.toLocaleDateString(i18n.language, {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  })
-
-  const handleDatePress = () => setShowDatePicker(true)
-
-  const handleDateChange = (
-    event: DateTimePickerEvent,
-    selectedDate?: Date,
-  ) => {
-    if (isAndroid) {
-      setShowDatePicker(false)
-    }
-    if (event.type === 'set' && selectedDate) {
-      setValue('targetDate', selectedDate.toISOString(), {
-        shouldValidate: true,
-      })
-    }
-  }
-
   return (
     <SafeTopView style={styles.container}>
       {/* Header: Cancel / Title / Save */}
@@ -157,15 +122,10 @@ export function AddEditScreen({ route, navigation }: Props) {
         <Text style={styles.headerTitle}>
           {isEditing ? t('addEdit.editTitle') : t('addEdit.newTitle')}
         </Text>
-        <Pressable
+        <SaveButton
+          control={control}
           onPress={handleSubmit(onValid)}
-          style={styles.headerButton}
-          disabled={!canSave}
-        >
-          <Text style={[styles.saveText, !canSave && styles.saveDisabled]}>
-            {t('addEdit.save')}
-          </Text>
-        </Pressable>
+        />
       </View>
 
       {/* Form */}
@@ -178,62 +138,32 @@ export function AddEditScreen({ route, navigation }: Props) {
         <Controller
           control={control}
           name="title"
-          render={({field: {onChange, value}}) => (
-            <FormInput 
+          render={({field: {onChange, value}, fieldState: {error}}) => (
+            <FormInput
               label={t('addEdit.titleLabel')}
               value={value}
               onChangeText={onChange}
               placeholder={t('addEdit.titlePlaceholder')}
               maxLength={100}
-              error={errors.title && t(errors.title.message!) }
+              error={error && t(error.message!)}
             />
-          )} 
-        
+          )}
         />
 
         {/* Date */}
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>{t('addEdit.dateLabel')}</Text>
-          {isAndroid ? (
-            <>
-              <Pressable
-                onPress={handleDatePress}
-                style={({ pressed }) => [
-                  styles.dateButton,
-                  pressed && styles.dateButtonPressed,
-                ]}
-              >
-                <Text style={styles.dateText}>{formattedDate}</Text>
-                <CalendarIcon color={colors.textSecondary} />
-              </Pressable>
-              {showDatePicker && (
-                <DateTimePicker
-                  value={dateValue}
-                  mode="date"
-                  display="default"
-                  onChange={handleDateChange}
-                />
-              )}
-            </>
-          ) : (
-            <DateTimePicker
-              value={dateValue}
-              mode="date"
-              display="compact"
-              onChange={handleDateChange}
-              themeVariant={isDark ? 'dark' : 'light'}
-            />
-          )}
-        </View>
+        <DateSection
+          control={control}
+          setValue={setValue}
+        />
 
         {/* Mode */}
 
         {!isEditing && (
-          <Controller 
+          <Controller
             control={control}
             name="mode"
             render={({field: {onChange, value}}) => (
-             <View style={styles.section}>
+              <View style={styles.section}>
                 <Text style={styles.sectionLabel}>
                   {t('addEdit.modeLabel')}
                 </Text>
@@ -245,7 +175,7 @@ export function AddEditScreen({ route, navigation }: Props) {
 
         {/* Category */}
 
-        <Controller 
+        <Controller
           control={control}
           name="category"
           render={({field: {onChange, value}}) => (
@@ -257,7 +187,7 @@ export function AddEditScreen({ route, navigation }: Props) {
             </View>
           )}
         />
-        
+
 
         {/* Theme */}
         <Controller
@@ -277,7 +207,7 @@ export function AddEditScreen({ route, navigation }: Props) {
         <Controller
           control={control}
           name="note"
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value }, fieldState: {error} }) => (
             <FormInput
               label={t('addEdit.noteLabel')}
               value={value ?? ''}
@@ -285,7 +215,7 @@ export function AddEditScreen({ route, navigation }: Props) {
               placeholder={t('addEdit.notePlaceholder')}
               maxLength={500}
               multiline
-              error={errors.note ? t(errors.note.message!) : undefined}
+              error={error && t(error.message!)}
             />
           )}
         />
