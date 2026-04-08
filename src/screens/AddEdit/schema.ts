@@ -5,20 +5,20 @@ export const countdownFormSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(1, { message: 'validation.titleRequired' })
-    .max(100, { message: 'validation.titleTooLong' }),
+    .min(1, { message: 'validation.addEdit.titleRequired' })
+    .max(100, { message: 'validation.addEdit.titleTooLong' }),
 
   targetDate: z
     .string()
     .refine(val => !isNaN(new Date(val).getTime()), {
-      message: 'validation.invalidDate',
+      message: 'validation.addEdit.invalidDate',
     }),
   mode: z.enum(countdownModes),
   theme: z.enum(countdownThemes),
   category: z.enum(countdownCategories).optional(),
   note: z
       .string()
-      .max(500, {message: 'validation.noteTooLong'})
+      .max(500, { message: 'validation.addEdit.noteTooLong' })
       .trim()
       .transform(val => val || undefined)
       .optional(),

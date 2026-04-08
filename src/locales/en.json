@@ -99,5 +99,13 @@
     "home": "Home",
     "add": "Add",
     "settings": "Settings"
+  },
+  "validation": {
+    "addEdit": {
+      "titleRequired": "Title is required",
+      "titleTooLong": "Title must be 100 characters or less",
+      "noteTooLong": "Note must be 500 characters or less",
+      "invalidDate": "Please select a valid date"
+    }
   }
 }

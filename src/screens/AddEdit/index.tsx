@@ -27,89 +27,94 @@ import {
   ModeToggle,
 } from '@/components'
 import { CalendarIcon } from '@/components/ui/icons/CalendarIcon'
-import { useStyles } from './styles'
 import type { AddEditParamList } from '@/navigation/types'
-import type { CountdownCategory, CountdownMode, CountdownTheme } from '@/types'
 import { useFocusEffect } from '@react-navigation/native'
+import { Controller, useForm } from 'react-hook-form'
+import { CountdownFormData, CountdownFormInput, countdownFormSchema } from './schema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useStyles } from './styles'
 
 type Props = NativeStackScreenProps<AddEditParamList, 'AddEdit'>
 
 export function AddEditScreen({ route, navigation }: Props) {
   const styles = useStyles()
   const { colors, isDark } = useTheme()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const isAndroid = Platform.OS === 'android'
 
   const editId = route.params?.id
   const isEditing = !!editId
   const existingCountdown = useCountdownById(editId ?? '')
 
-  const [title, setTitle] = useState(existingCountdown?.title ?? '')
-  const [targetDate, setTargetDate] = useState(
-    existingCountdown?.targetDate ?? new Date().toISOString(),
-  )
-  const [mode, setMode] = useState<CountdownMode>(
-    existingCountdown?.mode ?? DEFAULT_MODE,
-  )
-  const [category, setCategory] = useState<CountdownCategory | undefined>(
-    existingCountdown?.category,
-  )
-  const [theme, setTheme] = useState<CountdownTheme>(
-    existingCountdown?.theme ?? DEFAULT_THEME,
-  )
-  const [note, setNote] = useState(existingCountdown?.note ?? '')
-  const [notificationsEnabled, setNotificationsEnabled] = useState(
-    existingCountdown?.notificationsEnabled ?? true,
-  )
   const [showDatePicker, setShowDatePicker] = useState(false)
+
+  const { 
+    control, 
+    handleSubmit, 
+    reset, 
+    watch, 
+    setValue, 
+    formState: { errors } 
+  } = useForm<CountdownFormInput, unknown, CountdownFormData>({
+    resolver: zodResolver(countdownFormSchema),
+    defaultValues: {
+      title: '',
+      targetDate: new Date().toISOString(),
+      mode: DEFAULT_MODE,
+      category: undefined,
+      theme: DEFAULT_THEME,
+      note: '',
+      notificationsEnabled: true,
+    }
+  })
+
+  useFocusEffect(
+    useCallback(() => {
+      reset({
+        title: existingCountdown?.title ?? '',
+        targetDate: existingCountdown?.targetDate ?? new Date().toISOString(),
+        mode: existingCountdown?.mode ?? DEFAULT_MODE,
+        category: existingCountdown?.category,
+        theme: existingCountdown?.theme ?? DEFAULT_THEME,
+        note: existingCountdown?.note ?? '',
+        notificationsEnabled: existingCountdown?.notificationsEnabled ?? true,
+      })
+    }, [editId])
+  )
 
   const createCountdown = useCountdownStore(state => state.createCountdown)
   const updateCountdown = useCountdownStore(state => state.updateCountdown)
 
-  const canSave = title.trim().length > 0
-
-  useFocusEffect(
-    useCallback(() => {
-      setTitle(existingCountdown?.title ?? '')
-      setTargetDate(existingCountdown?.targetDate ?? new Date().toISOString())
-      setMode(existingCountdown?.mode ?? DEFAULT_MODE)
-      setCategory(existingCountdown?.category)
-      setTheme(existingCountdown?.theme ?? DEFAULT_THEME)
-      setNote(existingCountdown?.note ?? '')
-      setNotificationsEnabled(existingCountdown?.notificationsEnabled ?? true)
-      setShowDatePicker(false)
-    }, [editId])
-  )
+  const titleValue = watch('title')
+  const canSave = titleValue.trim().length > 0
 
   const handleCancel = () => navigation.goBack()
 
-  const handleSave = () => {
-    if (!canSave) return
-
-    navigation.setParams({ id: undefined })
+  const onValid = (data: CountdownFormData) => {
+    navigation.setParams({id: undefined})
 
     if (isEditing && editId) {
       updateCountdown(editId, {
-        title: title.trim(),
-        targetDate,
-        theme,
-        category,
-        note: note.trim() || undefined,
-        notificationsEnabled,
-        notificationOffsets: notificationsEnabled
+        title: data.title,
+        targetDate: data.targetDate,
+        theme: data.theme,
+        category: data.category,
+        note: data.note,
+        notificationsEnabled: data.notificationsEnabled,
+        notificationOffsets: data.notificationsEnabled
           ? DEFAULT_NOTIFICATION_OFFSETS
           : [],
       })
     } else {
       createCountdown({
-        title: title.trim(),
-        targetDate,
-        mode,
-        theme,
-        category,
-        note: note.trim() || undefined,
-        notificationsEnabled,
-        notificationOffsets: notificationsEnabled
+        title: data.title,
+        targetDate: data.targetDate,
+        mode: data.mode,
+        theme: data.theme,
+        category: data.category,
+        note: data.note,
+        notificationsEnabled: data.notificationsEnabled,
+        notificationOffsets: data.notificationsEnabled
           ? DEFAULT_NOTIFICATION_OFFSETS
           : [],
       })
@@ -118,28 +123,29 @@ export function AddEditScreen({ route, navigation }: Props) {
     navigation.goBack()
   }
 
+  const targetDateValue = watch('targetDate')
+  const dateValue = new Date(targetDateValue)
+  const formattedDate = dateValue.toLocaleDateString(i18n.language, {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  })
+
   const handleDatePress = () => setShowDatePicker(true)
 
   const handleDateChange = (
     event: DateTimePickerEvent,
     selectedDate?: Date,
   ) => {
-    // Android closes picker on any action; iOS keeps it open
-    if (Platform.OS === 'android') {
+    if (isAndroid) {
       setShowDatePicker(false)
     }
     if (event.type === 'set' && selectedDate) {
-      setTargetDate(selectedDate.toISOString())
+      setValue('targetDate', selectedDate.toISOString(), {
+        shouldValidate: true,
+      })
     }
   }
-
-  const dateValue = new Date(targetDate)
-
-  const formattedDate = dateValue.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  })
 
   return (
     <SafeTopView style={styles.container}>
@@ -152,7 +158,7 @@ export function AddEditScreen({ route, navigation }: Props) {
           {isEditing ? t('addEdit.editTitle') : t('addEdit.newTitle')}
         </Text>
         <Pressable
-          onPress={handleSave}
+          onPress={handleSubmit(onValid)}
           style={styles.headerButton}
           disabled={!canSave}
         >
@@ -169,13 +175,20 @@ export function AddEditScreen({ route, navigation }: Props) {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Title */}
-        <FormInput
-          label={t('addEdit.titleLabel')}
-          value={title}
-          onChangeText={setTitle}
-          placeholder={t('addEdit.titlePlaceholder')}
-          maxLength={100}
+        <Controller
+          control={control}
+          name="title"
+          render={({field: {onChange, value}}) => (
+            <FormInput 
+              label={t('addEdit.titleLabel')}
+              value={value}
+              onChangeText={onChange}
+              placeholder={t('addEdit.titlePlaceholder')}
+              maxLength={100}
+              error={errors.title && t(errors.title.message!) }
+            />
+          )} 
+        
         />
 
         {/* Date */}
@@ -214,53 +227,95 @@ export function AddEditScreen({ route, navigation }: Props) {
         </View>
 
         {/* Mode */}
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>{t('addEdit.modeLabel')}</Text>
-          <ModeToggle value={mode} onChange={setMode} />
-        </View>
+
+        {!isEditing && (
+          <Controller 
+            control={control}
+            name="mode"
+            render={({field: {onChange, value}}) => (
+             <View style={styles.section}>
+                <Text style={styles.sectionLabel}>
+                  {t('addEdit.modeLabel')}
+                </Text>
+                <ModeToggle value={value} onChange={onChange} />
+              </View>
+            )}
+          />
+        )}
 
         {/* Category */}
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>{t('addEdit.categoryLabel')}</Text>
-          <CategoryPicker selected={category} onSelect={setCategory} />
-        </View>
+
+        <Controller 
+          control={control}
+          name="category"
+          render={({field: {onChange, value}}) => (
+            <View style={styles.section}>
+              <Text style={styles.sectionLabel}>
+                {t('addEdit.categoryLabel')}
+              </Text>
+              <CategoryPicker selected={value} onSelect={onChange} />
+            </View>
+          )}
+        />
+        
 
         {/* Theme */}
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>{t('addEdit.themeLabel')}</Text>
-          <ThemePicker selected={theme} onSelect={setTheme} />
-        </View>
+        <Controller
+          control={control}
+          name="theme"
+          render={({ field: { onChange, value } }) => (
+            <View style={styles.section}>
+              <Text style={styles.sectionLabel}>
+                {t('addEdit.themeLabel')}
+              </Text>
+              <ThemePicker selected={value} onSelect={onChange} />
+            </View>
+          )}
+        />
 
         {/* Note */}
-        <FormInput
-          label={t('addEdit.noteLabel')}
-          value={note}
-          onChangeText={setNote}
-          placeholder={t('addEdit.notePlaceholder')}
-          maxLength={500}
-          multiline
+        <Controller
+          control={control}
+          name="note"
+          render={({ field: { onChange, value } }) => (
+            <FormInput
+              label={t('addEdit.noteLabel')}
+              value={value ?? ''}
+              onChangeText={onChange}
+              placeholder={t('addEdit.notePlaceholder')}
+              maxLength={500}
+              multiline
+              error={errors.note ? t(errors.note.message!) : undefined}
+            />
+          )}
         />
 
         {/* Notifications */}
-        <View style={styles.notificationsRow}>
-          <View style={styles.notificationsText}>
-            <Text style={styles.notificationsTitle}>
-              {t('addEdit.notificationsTitle')}
-            </Text>
-            <Text style={styles.notificationsDescription}>
-              {t('addEdit.notificationsDescription')}
-            </Text>
-          </View>
-          <Switch
-            value={notificationsEnabled}
-            onValueChange={setNotificationsEnabled}
-            trackColor={{
-              true: colors.primary,
-              false: colors.surfaceSecondary,
-            }}
-            thumbColor="#FFFFFF"
-          />
-        </View>
+        <Controller
+          control={control}
+          name="notificationsEnabled"
+          render={({ field: { onChange, value } }) => (
+            <View style={styles.notificationsRow}>
+              <View style={styles.notificationsText}>
+                <Text style={styles.notificationsTitle}>
+                  {t('addEdit.notificationsTitle')}
+                </Text>
+                <Text style={styles.notificationsDescription}>
+                  {t('addEdit.notificationsDescription')}
+                </Text>
+              </View>
+              <Switch
+                value={value}
+                onValueChange={onChange}
+                trackColor={{
+                  true: colors.primary,
+                  false: colors.surfaceSecondary,
+                }}
+                thumbColor="#FFFFFF"
+              />
+            </View>
+          )}
+        />
       </ScrollView>
     </SafeTopView>
   )
