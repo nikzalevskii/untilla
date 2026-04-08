@@ -15,13 +15,8 @@ export type CountdownCategory =
 
 // Card colour theme. Stored as a string key rather than a hex value so that
 // the same key ('violet') can resolve to different gradients in light vs dark mode.
-export type CountdownTheme =
-  | 'violet' // brand accent, default
-  | 'rose' // warm pink — birthdays, anniversaries
-  | 'amber' // orange — travel, adventures
-  | 'emerald' // green — health, nature
-  | 'sky' // blue — calm, neutral
-  | 'slate' // dark grey — work events
+export const countdownThemes = ['violet', 'rose', 'amber', 'emerald', 'sky', 'slate'] as const
+export type CountdownTheme = (typeof countdownThemes)[number]
 
 // How far in advance to send a reminder notification.
 // 'day_of' is a special case: fires at 9:00 AM on the day of the event.
