@@ -38,3 +38,18 @@ export function formatDate(
 ): string {
   return new Intl.DateTimeFormat(locale, options).format(toDate(date))
 }
+
+/**
+ * Parses "YYYY-MM-DD" string as local midnight.
+ *
+ * Why: new Date("2026-12-25") → UTC midnight (ECMAScript spec).
+ * In UTC-5 (New York) that's Dec 24 19:00 local — wrong day.
+ * This function constructs a local Date, avoiding the timezone trap.
+ *
+ * month - 1: JS Date constructor uses zero-based months (Jan=0, Dec=11),
+ * but ISO dates are 1-based (Jan=1, Dec=12).
+ */
+export function parseLocalDate(dateString: string): Date {
+  const [year, month, day] = dateString.split('-').map(Number)
+  return new Date(year, month - 1, day)
+}
