@@ -10,3 +10,5 @@ export type {
   CreateCountdownInput,
   UpdateCountdownInput,
 } from './countdown'
+
+export type { Country, PublicHoliday } from './holiday'
